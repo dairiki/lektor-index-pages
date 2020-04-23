@@ -1,0 +1,3 @@
+include tox.ini
+include example.ini
+recursive-include tests *.py *.lr *.ini *.html *.css *.lektorproject

@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+{% from "macros/blog.html" import render_blog_post %}
+{% block title %}{{ this.record.title }} - {{ this.year }}{% endblock %}
+{% block body %}
+  {% for child in this.children %}
+    {{ render_blog_post(child, from_index=true) }}
+  {% endfor %}
+{% endblock %}
+

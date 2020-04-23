@@ -1,0 +1,8 @@
+*~
+*.pyc
+*.pyo
+/dist/
+/build/
+lektor_index_pages.egg-info
+/.tox/
+/htmlcov/

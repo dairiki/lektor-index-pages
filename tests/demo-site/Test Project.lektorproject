@@ -1,0 +1,11 @@
+[project]
+name = Test Project
+
+[alternatives.en]
+name = English
+primary = yes
+locale = en_US
+
+[alternatives.xx]
+name = Test Alternative
+url_prefix = /xx/

@@ -1,0 +1,23 @@
+{% macro blog_date_index_nav(this) %}
+  {%- set controller = index_pages(this, 'year-index') -%}
+  {% if controller.year_indexes %}
+    <h3>Archives</h3>
+    <ul class="nav flex-column">
+      {% for year_idx in controller -%}
+        <li>
+          <a href="{{ year_idx|url }}">{{ year_idx.year }}</a>
+          <ul>
+            {% for month_idx in year_idx.month_indexes -%}
+              <li>
+                <a href="{{ month_idx|url }}">
+                  {{ month_idx.date|dateformat('MMMM') }}
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endmacro %}
+
