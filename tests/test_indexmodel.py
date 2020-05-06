@@ -143,7 +143,7 @@ class TestIndexModel(object):
         return None
 
     @pytest.fixture
-    def slug(self):
+    def slug_format(self):
         return None
 
     @pytest.fixture
@@ -152,12 +152,12 @@ class TestIndexModel(object):
 
     @pytest.fixture
     def model(self, lektor_env, mocker,
-              keys, template, slug, fields, pagination_config):
+              keys, template, slug_format, fields, pagination_config):
         return IndexModel(
             lektor_env,
             keys=keys,
             template=template,
-            slug=slug,
+            slug_format=slug_format,
             fields=fields,
             pagination_config=pagination_config,
             subindex_model=mocker.sentinel.subindex_model,
@@ -214,7 +214,7 @@ class TestIndexModel(object):
     def test_keys_for_post(self, model, blog_post, expected):
         assert list(model.keys_for_post(blog_post)) == expected
 
-    @pytest.mark.parametrize('slug, expected', [
+    @pytest.mark.parametrize('slug_format, expected', [
         (None, 'source-id'),
         ("'custom slug/%s'|format(this._id)", 'custom-slug/source-id'),
         ])
@@ -308,7 +308,7 @@ class Test_index_model_from_ini(IniReaderBase):
         keys = this.category
         template = tmpl.html
         subindex = subidx
-        slug = "c-" ~ this.category
+        slug_format = "c-" ~ this.category
 
         [index1.fields]
         foo = bar

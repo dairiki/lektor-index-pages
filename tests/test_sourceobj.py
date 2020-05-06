@@ -18,17 +18,17 @@ from lektor_index_pages.sourceobj import (
 
 
 @pytest.fixture
-def year_index_slug():
+def year_index_slug_format():
     return None
 
 
 @pytest.fixture
-def inifile(inifile, year_index_slug,
+def inifile(inifile, year_index_slug_format,
             # XXX: not sure why I need to explicitly call these out
             # They are used by our inherited inifile fixture
             pagination_enabled, month_index_enabled):
-    if year_index_slug is not None:
-        inifile['year-index.slug'] = year_index_slug
+    if year_index_slug_format is not None:
+        inifile['year-index.slug_format'] = year_index_slug_format
     return inifile
 
 
@@ -141,7 +141,7 @@ class TestIndexSource(object):
         # md5("/blog@index-pages/year-index")
         assert index_root._gid == "7797910bec275f5dd5e07c6eefb4be4d"
 
-    @pytest.mark.parametrize("year_index_slug, expected", [
+    @pytest.mark.parametrize("year_index_slug_format, expected", [
         (None, "/blog/2020/"),
         ("this._id ~ '_html'", "/blog/2020_html/"),
         ("'{}.html'.format(this._id)", "/blog/2020.html"),

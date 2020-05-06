@@ -4,6 +4,8 @@
 
 #### API changes
 
+- The `slug` configuration key has been renamed to `slug_format`.
+
 - The `attributes` config section has been renamed to `fields`.
 
   Though they are not quite like regular Lektor Record fields, they

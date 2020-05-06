@@ -99,7 +99,7 @@ class IndexModel(IndexModelBase):
     def __init__(self, env,
                  keys,
                  template=None,
-                 slug=None,
+                 slug_format=None,
                  fields=None,
                  pagination_config=None,
                  subindex_model=None,
@@ -117,7 +117,7 @@ class IndexModel(IndexModelBase):
             env, section=index_name, filename=config_filename)
         self.template = template
         self.keys_expr = expr('keys', keys)
-        self.slug_expr = expr('slog', slug) if slug else None
+        self.slug_expr = expr('slog', slug_format) if slug_format else None
 
         fields_section = "%s.fields" % index_name if index_name else None
         field = ExpressionCompiler(
@@ -234,7 +234,7 @@ def _index_model_from_ini(env, inifile, index_name,
         pass
 
     keys = inifile.get(prefix + 'keys')
-    slug = inifile.get(prefix + 'slug')
+    slug_format = inifile.get(prefix + 'slug_format')
     template = inifile.get(prefix + 'template')
     if not keys:
         raise RuntimeError("keys required")
@@ -255,7 +255,7 @@ def _index_model_from_ini(env, inifile, index_name,
         env,
         keys=keys,
         template=template,
-        slug=slug,
+        slug_format=slug_format,
         fields=fields,
         pagination_config=pagination_config,
         subindex_model=subindex_model,
