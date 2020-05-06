@@ -67,6 +67,7 @@ class IndexRootModel(IndexModelBase):
     def __init__(self, env,
                  index_name,
                  index_model,
+                 parent=None,
                  items=None,
                  config_filename=None):
         super(IndexRootModel, self).__init__(
@@ -74,10 +75,14 @@ class IndexRootModel(IndexModelBase):
             subindex_model=index_model,
             config_filename=config_filename)
 
+        if parent is None:
+            parent = '/'
+
         expr = ExpressionCompiler(
             env, section=index_name, filename=config_filename)
 
         self.index_name = index_name
+        self.parent = parent
         self.items_expr = expr('items', items) if items else None
 
     def get_virtual_path(self, parent, id_=None, page_num=None):
@@ -211,17 +216,18 @@ def index_models_from_ini(env, inifile):
         return (section_name + '.keys') in inifile
 
     for index_name in filter(is_index, inifile.sections()):
-        parent = inifile.get(index_name + '.parent', '/')
+        parent = inifile.get(index_name + '.parent')
         items = inifile.get(index_name + '.items')
         index_model = _index_model_from_ini(env, inifile, index_name)
 
         model = IndexRootModel(
             env,
             index_name=index_name,
+            parent=parent,
             items=items,
             index_model=index_model,
             config_filename=inifile.filename)
-        yield parent, model
+        yield model
 
 
 def _index_model_from_ini(env, inifile, index_name,

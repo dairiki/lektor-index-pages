@@ -2,35 +2,41 @@
 
 import pytest
 
-from lektor_index_pages.config import Config
-from lektor_index_pages.indexmodel import index_models_from_ini
+from lektor_index_pages.config import (
+    Config,
+    NoSuchIndex,
+    )
 from lektor_index_pages.sourceobj import IndexRoot
 
 
-@pytest.fixture
-def index_root_model(lektor_env, inifile):
-    for parent, model in index_models_from_ini(lektor_env, inifile):
-        break
-    return model
-
-
 class TestConfig(object):
+    @pytest.fixture
+    def parent(self):
+        return '/blog'
+
+    @pytest.fixture
+    def inifile(self, inifile, parent):
+        inifile['year-index.parent'] = parent
+        return inifile
 
     @pytest.fixture
     def config(self, lektor_env, inifile):
         return Config.from_ini(lektor_env, inifile)
 
-    @pytest.mark.parametrize("name, should_resolve", [
-        ('year-index', True),
-        ('missing', False),
-        ])
-    def test_get_index_root(self, config, blog_record, name, should_resolve):
-        root = config.get_index_root(blog_record, name)
-        if should_resolve:
-            assert isinstance(root, IndexRoot)
-            assert root._id == name
-        else:
-            assert root is None
+    def test_get_index_root(self, config, lektor_pad):
+        root = config.get_index_root('year-index', lektor_pad)
+        assert isinstance(root, IndexRoot)
+        assert root._id == 'year-index'
+
+    def test_get_index_root_fails_if_name_unknown(self, config, lektor_pad):
+        with pytest.raises(NoSuchIndex,
+                           match=r'no index named .* is configured'):
+            config.get_index_root('missing', lektor_pad)
+
+    @pytest.mark.parametrize('parent', ['/missing-parent'])
+    def test_get_index_root_fails_if_parent_unknown(self, config, lektor_pad):
+        with pytest.raises(NoSuchIndex, match=r'no parent .*\bexists'):
+            config.get_index_root('year-index', lektor_pad)
 
     def test_iter_index_roots(self, config, blog_record):
         roots = list(config.iter_index_roots(blog_record))

@@ -1,5 +1,5 @@
 {% macro blog_date_index_nav(this) %}
-  {%- set controller = index_pages(this, 'year-index') -%}
+  {%- set controller = index_pages('year-index', this.alt) -%}
   {% if controller.year_indexes %}
     <h3>Archives</h3>
     <ul class="nav flex-column">

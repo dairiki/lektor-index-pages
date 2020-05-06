@@ -9,8 +9,8 @@ from lektor_index_pages.buildprog import IndexBuildProgram
 
 
 @pytest.fixture
-def index_root(config, blog_record):
-    return config.get_index_root(blog_record, 'year-index')
+def index_root(config, lektor_pad):
+    return config.get_index_root('year-index', lektor_pad)
 
 
 class Test_build_index_root(object):

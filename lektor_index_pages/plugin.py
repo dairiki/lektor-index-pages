@@ -7,15 +7,15 @@ FIXME: figure out how to get stale index files to prune correctly
 from threading import Lock
 
 import jinja2
-from werkzeug.utils import cached_property
 
-from lektor.context import get_ctx
-from lektor.db import Record
 from lektor.environment import PRIMARY_ALT
 from lektor.pluginsystem import Plugin
 
 from .buildprog import IndexBuildProgram
-from .config import Config
+from .config import (
+    Config,
+    NoSuchIndex,
+    )
 from .indexmodel import VIRTUAL_PATH_PREFIX
 from .sourceobj import IndexBase
 
@@ -101,34 +101,27 @@ class IndexPagesPlugin(Plugin):
             config = self.read_config()
             return config.resolve_url_path(record, url_path)
 
-        @jinja2.environmentfunction
-        def index_pages(jinja_env, record_or_path, index_name):
+        @jinja2.contextfunction
+        def index_pages(jinja_ctx, index_name, alt=PRIMARY_ALT):
+            pad = jinja_ctx.resolve('site')
+            if jinja2.is_undefined(pad):
+                return pad
+
             config = self.read_config()
             try:
-                return IndexPages(config, record_or_path, index_name)
-            except ReturnUndefined as exc:
-                return jinja_env.undefined('index_pages: %s' % exc)
+                index_root = config.get_index_root(index_name, pad, alt)
+            except NoSuchIndex as exc:
+                return jinja_ctx.environment.undefined('index_pages: %s' % exc)
+            return IndexPages(index_root)
 
         env.jinja_env.globals['index_pages'] = index_pages
 
 
-class ReturnUndefined(Exception):
-    pass
-
-
 class IndexPages(object):
-    def __init__(self, config, record_or_path, index_name):
-        record = coerce_to_record(record_or_path)
-        index_root = config.get_index_root(record, index_name)
-        if index_root is None:
-            raise ReturnUndefined("no index %r is configured on %r"
-                                  % (index_name, record))
-
+    def __init__(self, index_root):
         self.index_root = index_root
-        self.index_name = index_name
-        self.record = record
 
-    @cached_property
+    @property
     def indexes(self):
         return self.index_root.subindexes
 
@@ -140,26 +133,17 @@ class IndexPages(object):
 
     __nonzero__ = __bool__      # py2
 
+    @property
+    def index_name(self):
+        return self.index_root._id
+
+    @property
+    def alt(self):
+        return self.index_root.alt
+
     def __repr__(self):
-        return "<index_pages({!r}, {!r})>".format(self.record, self.index_name)
-
-
-def coerce_to_record(record_or_path):
-    if isinstance(record_or_path, Record):
-        record = record_or_path
-        # get unpaginated version
-        assert record.record is record or record.page_num is not None
-        return record.record
-    elif isinstance(record_or_path, str):
-        path = record_or_path
-        ctx = get_ctx()
-        if ctx is None:
-            raise RuntimeError("No context found")
-        alt = getattr(ctx.source, 'alt', PRIMARY_ALT)
-        record = ctx.pad.get(path, alt=alt, allow_virtual=False)
-        if record is None:
-            raise ReturnUndefined("no record exists for path %r" % path)
-        return record
-    else:
-        raise ReturnUndefined(
-            "expected a record or path, not %r" % record_or_path)
+        if self.alt == PRIMARY_ALT:
+            fmt = "<index_pages({0.index_name!r})>"
+        else:
+            fmt = "<index_pages({0.index_name!r}, {0.alt!r})>"
+        return fmt.format(self)

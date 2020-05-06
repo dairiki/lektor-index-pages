@@ -5,14 +5,13 @@ import pytest
 
 import jinja2
 from lektor.db import Query
+from lektor.environment import PRIMARY_ALT
 
 from lektor_index_pages.indexmodel import VIRTUAL_PATH_PREFIX
 from lektor_index_pages.plugin import (
-    coerce_to_record,
     Cache,
     IndexPages,
     IndexPagesPlugin,
-    ReturnUndefined,
     )
 from lektor_index_pages.sourceobj import IndexSource
 
@@ -101,34 +100,40 @@ class TestIndexPagesPlugin(object):
         return lektor_env.jinja_env
 
     @pytest.fixture
+    def jinja_ctx(self, jinja_env, lektor_pad):
+        return jinja_env.from_string("").new_context({'site': lektor_pad})
+
+    @pytest.fixture
     def index_pages(self, plugin, jinja_env):
         plugin.on_setup_env()
         return jinja_env.globals['index_pages']
 
-    def test_index_pages(self, index_pages, jinja_env, blog_record):
-        rv = index_pages(jinja_env, blog_record, 'year-index')
+    def test_index_pages(self, index_pages, jinja_ctx):
+        rv = index_pages(jinja_ctx, 'year-index')
         assert isinstance(rv.indexes, Query)
 
-    def test_index_pages_returns_undefined(
-            self, index_pages, jinja_env, lektor_pad):
-        rv = index_pages(jinja_env, lektor_pad.root, 'year-index')
+    def test_index_pages_returns_undefined(self, index_pages, jinja_ctx):
+        rv = index_pages(jinja_ctx, 'missing-index')
+        assert jinja2.is_undefined(rv)
+
+    @pytest.mark.parametrize('lektor_pad', [jinja2.Undefined('undefined')])
+    def test_index_pages_missing_site(self, index_pages, jinja_ctx):
+        rv = index_pages(jinja_ctx, 'year-index')
         assert jinja2.is_undefined(rv)
 
 
 class TestIndexPages(object):
     @pytest.fixture
-    def inst(self, config, blog_record):
-        return IndexPages(config, blog_record, 'year-index')
+    def alt(self):
+        return PRIMARY_ALT
 
-    @pytest.mark.parametrize("record_path, index_name", [
-        ("/", 'year-index'),
-        ("/blog/first-post", 'year-index'),
-        ("/blog", 'no-such-index'),
-        ])
-    def test_no_such_index(self, config, record, index_name):
-        with pytest.raises(ReturnUndefined,
-                           match=r'no index .* is configured'):
-            return IndexPages(config, record, index_name)
+    @pytest.fixture
+    def index_root(self, config, lektor_pad, alt):
+        return config.get_index_root('year-index', lektor_pad, alt)
+
+    @pytest.fixture
+    def inst(self, index_root):
+        return IndexPages(index_root)
 
     def test_indexes(self, inst):
         assert inst.indexes.count() > 0
@@ -141,43 +146,12 @@ class TestIndexPages(object):
     def test_bool(self, inst):
         assert inst
 
+    def test_index_name(self, inst):
+        assert inst.index_name == 'year-index'
+
+    def test_alt(self, inst, alt):
+        assert inst.alt == alt
+
+    @pytest.mark.parametrize('alt', [PRIMARY_ALT, 'xx'])
     def test_repr(self, inst):
-        assert re.match(r'<index_pages(.*)>\Z', repr(inst))
-
-
-class Test_coerce_to_record(object):
-    @pytest.fixture
-    def source(self, lektor_pad, source_path):
-        source = lektor_pad.get(source_path)
-        assert source is not None
-        return source
-
-    @pytest.mark.parametrize("source_path, record_path", [
-        ("/blog", "/blog"),
-        ("/blog@1", "/blog"),
-        ("/", "/"),
-        ("/blog/first-post", "/blog/first-post"),
-        ])
-    def test_from_source(self, source, record_path):
-        record = coerce_to_record(source)
-        assert record.path == record_path
-
-    def test_from_virtual_source(self, lektor_pad):
-        source = lektor_pad.get("/blog@index-pages/2020")
-        with pytest.raises(ReturnUndefined, match=r'expected a record'):
-            coerce_to_record(source)
-
-    @pytest.mark.usefixtures('lektor_context')
-    def test_from_path(self):
-        path = "/blog/first-post"
-        source = coerce_to_record(path)
-        assert source.path == path
-
-    @pytest.mark.usefixtures('lektor_context')
-    def test_missing_path(self):
-        with pytest.raises(ReturnUndefined, match=r'no record exists'):
-            coerce_to_record("/missing")
-
-    def test_no_context(self):
-        with pytest.raises(RuntimeError, match=r'(?i)no context'):
-            coerce_to_record("/path")
+        assert re.match(r"<index_pages\(u?'year-index'.*\)>", repr(inst))

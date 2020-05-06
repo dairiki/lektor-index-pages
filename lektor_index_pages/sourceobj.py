@@ -61,7 +61,7 @@ class IndexBase(VirtualSourceObject):
         self.page_num = page_num
         self.virtual_path = model.get_virtual_path(parent, id_, page_num)
 
-    @property
+    @cached_property
     def subindexes(self):
         """A Query containing the indexes.
 

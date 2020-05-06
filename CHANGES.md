@@ -4,6 +4,9 @@
 
 #### API changes
 
+- Drop the `record` argument from the (jinja) global `index_pages` function.
+  (Since indexes can not have multiple parents, it is not necessary.)
+
 - The `slug` configuration key has been renamed to `slug_format`.
 
 - The `attributes` config section has been renamed to `fields`.

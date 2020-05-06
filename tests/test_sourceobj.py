@@ -34,9 +34,9 @@ def inifile(inifile, year_index_slug_format,
 
 @pytest.fixture
 def index_root_model(lektor_env, inifile):
-    for parent, model in index_models_from_ini(lektor_env, inifile):
+    for model in index_models_from_ini(lektor_env, inifile):
         break
-    assert parent == '/blog'
+    assert model.parent == '/blog'
     assert model.index_name == 'year-index'
     return model
 

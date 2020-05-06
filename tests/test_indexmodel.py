@@ -3,6 +3,7 @@
 import copy
 import datetime
 import inspect
+from operator import attrgetter
 import re
 
 import pytest
@@ -292,11 +293,11 @@ class Test_index_models_from_ini(IniReaderBase):
         return test_ini
 
     def test(self, lektor_env, inifile):
-        models = [
-            (parent, model.index_name)
-            for parent, model in index_models_from_ini(lektor_env, inifile)
+        models = index_models_from_ini(lektor_env, inifile)
+        assert list(map(attrgetter('parent', 'index_name'), models)) == [
+            ('/blog', 'index1'),
+            ('/', 'index2'),
             ]
-        assert models == [('/blog', 'index1'), ('/', 'index2')]
 
 
 class Test_index_model_from_ini(IniReaderBase):
