@@ -1,6 +1,6 @@
 ## Changelog
 
-### Unreleased
+### 0.1a2 — 2020-05-06
 
 #### API changes
 
