@@ -278,7 +278,7 @@ class Test_index_models_from_ini(IniReaderBase):
         test_ini = tmp_path_factory.mktemp('imsfi') / 'test.ini'
         test_ini.write_text(inspect.cleandoc(u'''
         [index1]
-        parent = /blog
+        parent_path = /blog
         keys = this.category
 
         [index2]
@@ -294,7 +294,7 @@ class Test_index_models_from_ini(IniReaderBase):
 
     def test(self, lektor_env, inifile):
         models = index_models_from_ini(lektor_env, inifile)
-        assert list(map(attrgetter('parent', 'index_name'), models)) == [
+        assert list(map(attrgetter('parent_path', 'index_name'), models)) == [
             ('/blog', 'index1'),
             ('/', 'index2'),
             ]

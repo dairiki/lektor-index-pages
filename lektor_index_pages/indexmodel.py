@@ -67,7 +67,7 @@ class IndexRootModel(IndexModelBase):
     def __init__(self, env,
                  index_name,
                  index_model,
-                 parent=None,
+                 parent_path=None,
                  items=None,
                  config_filename=None):
         super(IndexRootModel, self).__init__(
@@ -75,14 +75,14 @@ class IndexRootModel(IndexModelBase):
             subindex_model=index_model,
             config_filename=config_filename)
 
-        if parent is None:
-            parent = '/'
+        if parent_path is None:
+            parent_path = '/'
 
         expr = ExpressionCompiler(
             env, section=index_name, filename=config_filename)
 
         self.index_name = index_name
-        self.parent = parent
+        self.parent_path = parent_path
         self.items_expr = expr('items', items) if items else None
 
     def get_virtual_path(self, parent, id_=None, page_num=None):
@@ -216,14 +216,14 @@ def index_models_from_ini(env, inifile):
         return (section_name + '.keys') in inifile
 
     for index_name in filter(is_index, inifile.sections()):
-        parent = inifile.get(index_name + '.parent')
+        parent_path = inifile.get(index_name + '.parent_path')
         items = inifile.get(index_name + '.items')
         index_model = _index_model_from_ini(env, inifile, index_name)
 
         model = IndexRootModel(
             env,
             index_name=index_name,
-            parent=parent,
+            parent_path=parent_path,
             items=items,
             index_model=index_model,
             config_filename=inifile.filename)
@@ -235,7 +235,7 @@ def _index_model_from_ini(env, inifile, index_name,
     prefix = index_name + '.'
 
     if is_subindex:
-        # XXX: warn if ``parent`` or ``items`` is set?
+        # XXX: warn if ``parent_path`` or ``items`` is set?
         # (We ignore them on subindexes.)
         pass
 

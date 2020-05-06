@@ -36,7 +36,7 @@ def inifile(inifile, year_index_slug_format,
 def index_root_model(lektor_env, inifile):
     for model in index_models_from_ini(lektor_env, inifile):
         break
-    assert model.parent == '/blog'
+    assert model.parent_path == '/blog'
     assert model.index_name == 'year-index'
     return model
 

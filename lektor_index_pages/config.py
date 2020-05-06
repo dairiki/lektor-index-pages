@@ -28,16 +28,16 @@ class Config(object):
         if index_model is None:
             raise NoSuchIndex("no index named {!r} is configured"
                               .format(index_name))
-        record = pad.get(index_model.parent, alt=alt)
+        record = pad.get(index_model.parent_path, alt=alt)
         if record is None:
             raise NoSuchIndex("no parent record exists at {!r} for index {!r}"
-                              .format(index_model.parent, index_name))
+                              .format(index_model.parent_path, index_name))
         return IndexRoot.get_index(index_model, record)
 
     def iter_index_roots(self, record):
         record_path = record.path
         for index_model in self.index_models.values():
-            if index_model.parent == record_path:
+            if index_model.parent_path == record_path:
                 yield IndexRoot.get_index(index_model, record)
 
     def resolve_virtual_path(self, record, pieces):
@@ -54,7 +54,7 @@ class Config(object):
 
     def _resolve_virtual_path(self, record, pieces):
         index_model = self.index_models.get(pieces[0])
-        if index_model and index_model.parent == record.path:
+        if index_model and index_model.parent_path == record.path:
             index_root = IndexRoot.get_index(index_model, record)
             return index_root.resolve_virtual_path(pieces[1:])
 

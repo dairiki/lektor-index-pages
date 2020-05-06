@@ -11,12 +11,12 @@ from lektor_index_pages.sourceobj import IndexRoot
 
 class TestConfig(object):
     @pytest.fixture
-    def parent(self):
+    def parent_path(self):
         return '/blog'
 
     @pytest.fixture
-    def inifile(self, inifile, parent):
-        inifile['year-index.parent'] = parent
+    def inifile(self, inifile, parent_path):
+        inifile['year-index.parent_path'] = parent_path
         return inifile
 
     @pytest.fixture
@@ -33,7 +33,7 @@ class TestConfig(object):
                            match=r'no index named .* is configured'):
             config.get_index_root('missing', lektor_pad)
 
-    @pytest.mark.parametrize('parent', ['/missing-parent'])
+    @pytest.mark.parametrize('parent_path', ['/missing-parent'])
     def test_get_index_root_fails_if_parent_unknown(self, config, lektor_pad):
         with pytest.raises(NoSuchIndex, match=r'no parent .*\bexists'):
             config.get_index_root('year-index', lektor_pad)
