@@ -31,8 +31,9 @@ class Cache(object):
     regular builds.
 
     The devserver HTTP server, however, tries to resolve nearly every
-    URL requested through each plugin.  For each web request it does
-    this using a fresh pad — so much for our caching on the pad.
+    URL requested through each plugin that registers a URL resolver.
+    For each web request it does this using a fresh pad — so much for
+    our caching on the pad.
 
     So this is a separate cache, whose main purpose is to keep the devserver
     from being too slow responding to http requests.
