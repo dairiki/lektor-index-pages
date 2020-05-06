@@ -17,7 +17,7 @@ from lektor_index_pages.indexmodel import (
     ExpressionCompiler,
     index_models_from_ini,
     _index_model_from_ini,
-    _attribute_config_from_ini,
+    _field_config_from_ini,
     _pagination_config_from_ini,
     )
 
@@ -147,18 +147,18 @@ class TestIndexModel(object):
         return None
 
     @pytest.fixture
-    def attributes(self):
+    def fields(self):
         return None
 
     @pytest.fixture
-    def model(self, lektor_env, keys, template, slug, attributes,
-              pagination_config, mocker):
+    def model(self, lektor_env, mocker,
+              keys, template, slug, fields, pagination_config):
         return IndexModel(
             lektor_env,
             keys=keys,
             template=template,
             slug=slug,
-            attributes=attributes,
+            fields=fields,
             pagination_config=pagination_config,
             subindex_model=mocker.sentinel.subindex_model,
             config_filename='dummy.ini')
@@ -221,7 +221,7 @@ class TestIndexModel(object):
     def test_get_slug(self, model, source, expected):
         assert model.get_slug(source) == expected
 
-    @pytest.mark.parametrize('attributes', [
+    @pytest.mark.parametrize('fields', [
         [('id_upper', 'this._id.upper()')],
         ])
     def test_data_descriptors(self, model, source):
@@ -310,7 +310,7 @@ class Test_index_model_from_ini(IniReaderBase):
         subindex = subidx
         slug = "c-" ~ this.category
 
-        [index1.attributes]
+        [index1.fields]
         foo = bar
 
         [index1.pagination]
@@ -340,28 +340,28 @@ class Test_index_model_from_ini(IniReaderBase):
             _index_model_from_ini(lektor_env, inifile, 'index1')
 
 
-class Test_attribute_config_from_ini(IniReaderBase):
+class Test_field_config_from_ini(IniReaderBase):
     @pytest.fixture(scope='session')
     def test_ini(self, tmp_path_factory):
         test_ini = tmp_path_factory.mktemp('acfi') / 'test.ini'
         test_ini.write_text(inspect.cleandoc(u'''
-        [ind1.attributes]
+        [ind1.fields]
         foo = bar
 
-        [ind2.attributes.this-is-bad]
+        [ind2.fields.this-is-bad]
         foo = bar
         '''))
         return test_ini
 
     def test(self, inifile):
-        assert _attribute_config_from_ini(inifile, 'ind1') == {
+        assert _field_config_from_ini(inifile, 'ind1') == {
             'foo': 'bar',
             }
 
     def test_raises_error(self, inifile):
         with pytest.raises(RuntimeError,
                            match=r'should not contain periods'):
-            _attribute_config_from_ini(inifile, 'ind2')
+            _field_config_from_ini(inifile, 'ind2')
 
 
 class Test_pagination_from_ini(IniReaderBase):

@@ -79,7 +79,7 @@ slug = 'category/{}'.format(this._id)
 # this template will be rendered, once for each category to generate the indexes
 template = category-index.html
 
-[category.attributes]
+[category.fields]
 # Define the `category` field of the index pages to be an alias for the index `id`
 # (which is the key for the index page — in this case the category.)
 category = this._id
@@ -127,7 +127,7 @@ keys = '{.year:04d}'.format(this.pub_date)
 template = blog-year-index.html
 subindex = month
 
-[date.attributes]
+[date.fields]
 date = this.children.first().pub_date.replace(month=1, day=1)
 year = this._id|int
 
@@ -135,7 +135,7 @@ year = this._id|int
 keys = '{.month:02d}'.format(this.pub_date)
 template = blog-month-index.html
 
-[date.month.attributes]
+[date.month.fields]
 # this.parent is the year-index page this month-index belongs to.
 date = this.parent.date.replace(month=this._id|int)
 year = this.parent.year

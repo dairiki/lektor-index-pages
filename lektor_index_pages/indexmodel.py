@@ -100,7 +100,7 @@ class IndexModel(IndexModelBase):
                  keys,
                  template=None,
                  slug=None,
-                 attributes=None,
+                 fields=None,
                  pagination_config=None,
                  subindex_model=None,
                  index_name=None,
@@ -119,12 +119,12 @@ class IndexModel(IndexModelBase):
         self.keys_expr = expr('keys', keys)
         self.slug_expr = expr('slog', slug) if slug else None
 
-        attr_section = "%s.attributes" % index_name if index_name else None
-        attr = ExpressionCompiler(
-            env, section=attr_section, filename=config_filename)
+        fields_section = "%s.fields" % index_name if index_name else None
+        field = ExpressionCompiler(
+            env, section=fields_section, filename=config_filename)
         self.data_descriptors = [
-            (name, attr(name, expr))
-            for name, expr in dict(attributes or ()).items()]
+            (name, field(name, expr))
+            for name, expr in dict(fields or ()).items()]
 
     def get_virtual_path(self, parent, id_, page_num=None):
         assert id_ is not None
@@ -239,7 +239,7 @@ def _index_model_from_ini(env, inifile, index_name,
     if not keys:
         raise RuntimeError("keys required")
 
-    attributes = _attribute_config_from_ini(inifile, index_name)
+    fields = _field_config_from_ini(inifile, index_name)
     pagination_config = _pagination_config_from_ini(
         env, inifile, index_name)
 
@@ -256,23 +256,24 @@ def _index_model_from_ini(env, inifile, index_name,
         keys=keys,
         template=template,
         slug=slug,
-        attributes=attributes,
+        fields=fields,
         pagination_config=pagination_config,
         subindex_model=subindex_model,
         index_name=index_name,
         config_filename=inifile.filename)
 
 
-def _attribute_config_from_ini(inifile, index_name):
-    attribs = inifile.section_as_dict(index_name + '.attributes')
+def _field_config_from_ini(inifile, index_name):
+    section_name = index_name + '.fields'
+    fields = inifile.section_as_dict(section_name)
 
     def has_dot(s):
         return '.' in s
-    if any(map(has_dot, attribs)):
+    if any(map(has_dot, fields.keys())):
         raise RuntimeError(
-            "{}: section [{}]: attribute names should not contain periods"
-            .format(inifile.filename, index_name + '.attributes'))
-    return attribs
+            "{}: section [{}]: field names should not contain periods"
+            .format(inifile.filename, section_name))
+    return fields
 
 
 def _pagination_config_from_ini(env, inifile, index_name):
