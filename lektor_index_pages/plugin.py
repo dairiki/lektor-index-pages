@@ -138,6 +138,8 @@ class IndexPages(object):
     def __bool__(self):
         return bool(self.indexes)
 
+    __nonzero__ = __bool__      # py2
+
     def __repr__(self):
         return "<index_pages({!r}, {!r})>".format(self.record, self.index_name)
 

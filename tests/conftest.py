@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from pathlib import Path
+try:
+    from pathlib import Path
+except ImportError:             # pragma: no cover
+    from pathlib2 import Path
 
 import pkg_resources
 import pytest

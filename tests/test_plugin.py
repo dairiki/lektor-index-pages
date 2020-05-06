@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
 import re
-from unittest.mock import (
-    call,
-    Mock,
-    )
 
 import pytest
 
@@ -33,23 +29,23 @@ class TestCache(object):
     def cache(self):
         return Cache()
 
-    def test_get_or_create(self, cache):
-        creator = Mock(name='creator', spec=())
+    def test_get_or_create(self, cache, mocker):
+        creator = mocker.Mock(name='creator', spec=())
         assert cache.get_or_create('key', creator) is creator.return_value
         assert cache.get_or_create('key', creator) is creator.return_value
-        assert creator.mock_calls == [call()]
+        assert creator.mock_calls == [mocker.call()]
 
         assert cache.get_or_create('other', creator) is creator.return_value
-        assert creator.mock_calls == [call(), call()]
+        assert creator.mock_calls == [mocker.call(), mocker.call()]
 
-    def test_clear(self, cache):
-        creator = Mock(name='creator', spec=())
+    def test_clear(self, cache, mocker):
+        creator = mocker.Mock(name='creator', spec=())
         assert cache.get_or_create('key', creator) is creator.return_value
-        assert creator.mock_calls == [call()]
+        assert creator.mock_calls == [mocker.call()]
 
         cache.clear()
         assert cache.get_or_create('key', creator) is creator.return_value
-        assert creator.mock_calls == [call(), call()]
+        assert creator.mock_calls == [mocker.call(), mocker.call()]
 
 
 class TestIndexPagesPlugin(object):
@@ -146,7 +142,7 @@ class TestIndexPages(object):
         assert inst
 
     def test_repr(self, inst):
-        assert re.fullmatch(r'<index_pages(.*)>', repr(inst))
+        assert re.match(r'<index_pages(.*)>\Z', repr(inst))
 
 
 class Test_coerce_to_record(object):

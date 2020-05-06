@@ -266,7 +266,7 @@ class TestIndexSource(object):
             )
 
     @pytest.mark.parametrize('data, checksum', [
-        (("path", ["c1"], ("id")),
+        ((u"path", [u"c1"], (u"id")),
          "e2df3e68cc1a7573ec975aad5b2eb17e1d445165"),
         ])
     def test_compute_checksum(self, data, checksum):

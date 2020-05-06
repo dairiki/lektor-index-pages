@@ -4,10 +4,6 @@ import copy
 import datetime
 import inspect
 import re
-from unittest.mock import (
-    sentinel,
-    Mock,
-    )
 
 import pytest
 
@@ -84,11 +80,11 @@ class TestIndexRootModel(object):
         return None
 
     @pytest.fixture
-    def model(self, lektor_env, items):
+    def model(self, lektor_env, items, mocker):
         return IndexRootModel(
             lektor_env,
             index_name='test-index',
-            index_model=sentinel.index_model,
+            index_model=mocker.sentinel.index_model,
             items=items,
             config_filename='dummy.ini')
 
@@ -97,13 +93,13 @@ class TestIndexRootModel(object):
         assert datamodel.filename == 'dummy.ini'
         assert not datamodel.pagination_config.enabled
 
-    def test_get_virtual_path(self, model):
-        parent = sentinel.parent
+    def test_get_virtual_path(self, model, mocker):
+        parent = mocker.sentinel.parent
         assert model.get_virtual_path(parent) \
             == VIRTUAL_PATH_PREFIX + '/test-index'
 
-    def test_match_path_pagination(self, model):
-        source = sentinel.parent
+    def test_match_path_pagination(self, model, mocker):
+        source = mocker.sentinel.parent
         assert model.match_path_pagination(source, ['page', '2']) is None
 
     @pytest.mark.parametrize(('items', 'paths'), [
@@ -156,7 +152,7 @@ class TestIndexModel(object):
 
     @pytest.fixture
     def model(self, lektor_env, keys, template, slug, attributes,
-              pagination_config):
+              pagination_config, mocker):
         return IndexModel(
             lektor_env,
             keys=keys,
@@ -164,7 +160,7 @@ class TestIndexModel(object):
             slug=slug,
             attributes=attributes,
             pagination_config=pagination_config,
-            subindex_model=sentinel.subindex_model,
+            subindex_model=mocker.sentinel.subindex_model,
             config_filename='dummy.ini')
 
     @pytest.mark.parametrize('template, expected', [
@@ -184,10 +180,11 @@ class TestIndexModel(object):
         ('foo', 'bar', 42, "foo/bar/page/42"),
         ])
     def test_get_virtual_path(self, model,
-                              parent_path, id_, page_num, expected):
-        parent = Mock(name='parent', spec=(),
-                      virtual_path=parent_path,
-                      page_num=None)
+                              parent_path, id_, page_num, expected,
+                              mocker):
+        parent = mocker.Mock(name='parent', spec=(),
+                             virtual_path=parent_path,
+                             page_num=None)
         assert model.get_virtual_path(parent, id_, page_num) == expected
 
     @pytest.mark.parametrize(
@@ -278,7 +275,7 @@ class Test_index_models_from_ini(IniReaderBase):
     @pytest.fixture(scope='session')
     def test_ini(self, tmp_path_factory):
         test_ini = tmp_path_factory.mktemp('imsfi') / 'test.ini'
-        test_ini.write_text(inspect.cleandoc('''
+        test_ini.write_text(inspect.cleandoc(u'''
         [index1]
         parent = /blog
         keys = this.category
@@ -306,7 +303,7 @@ class Test_index_model_from_ini(IniReaderBase):
     @pytest.fixture(scope='session')
     def test_ini(self, tmp_path_factory):
         test_ini = tmp_path_factory.mktemp('imfi') / 'test.ini'
-        test_ini.write_text(inspect.cleandoc('''
+        test_ini.write_text(inspect.cleandoc(u'''
         [index1]
         keys = this.category
         template = tmpl.html
@@ -347,7 +344,7 @@ class Test_attribute_config_from_ini(IniReaderBase):
     @pytest.fixture(scope='session')
     def test_ini(self, tmp_path_factory):
         test_ini = tmp_path_factory.mktemp('acfi') / 'test.ini'
-        test_ini.write_text(inspect.cleandoc('''
+        test_ini.write_text(inspect.cleandoc(u'''
         [ind1.attributes]
         foo = bar
 
@@ -371,7 +368,7 @@ class Test_pagination_from_ini(IniReaderBase):
     @pytest.fixture(scope='session')
     def test_ini(self, tmp_path_factory):
         test_ini = tmp_path_factory.mktemp('pfi') / 'test.ini'
-        test_ini.write_text(inspect.cleandoc('''
+        test_ini.write_text(inspect.cleandoc(u'''
         [pagination]
         per_page = 10
 

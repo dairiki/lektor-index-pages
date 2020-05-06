@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from pathlib import Path
-from unittest.mock import (
-    call,
-    Mock,
-    )
 import lektor.context
 import pytest
+
+from .conftest import Path
 
 from lektor_index_pages.buildprog import IndexBuildProgram
 
@@ -58,17 +55,18 @@ class TestIndexBuildProgram(object):
         assert declare_artifact.called_once_with(
             '/blog/2020/index.html', sources=[source_filename])
 
-    def test_build_artifact(self, prog, source):
+    def test_build_artifact(self, prog, source, mocker):
         template = "year-index.html"
-        artifact = Mock(name='artifact', spec=('render_template_into',))
+        artifact = mocker.Mock(name='artifact', spec=('render_template_into',))
 
         prog.build_artifact(artifact)
         assert artifact.mock_calls == [
-            call.render_template_into(template, this=source),
+            mocker.call.render_template_into(template, this=source),
             ]
 
-    def test_build_artifact_records_dependency(self, prog, source, inifile):
-        artifact = Mock(name='artifact')
+    def test_build_artifact_records_dependency(self, prog, source, inifile,
+                                               mocker):
+        artifact = mocker.Mock(name='artifact')
         with lektor.context.Context(artifact, pad=None) as ctx:
             prog.build_artifact(artifact)
         assert inifile.filename in ctx.referenced_dependencies

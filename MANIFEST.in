@@ -1,3 +1,3 @@
-include tox.ini
+include tox.ini LICENSE CHANGES.md
 include example.ini
 recursive-include tests *.py *.lr *.ini *.html *.css *.lektorproject

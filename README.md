@@ -1,5 +1,11 @@
 # Lektor Index Pages Plugin
 
+[![PyPI version](https://img.shields.io/pypi/v/lektor-index-pages.svg)](https://pypi.org/project/lektor-index-pages/)
+[![PyPI Supported Python Versions](https://img.shields.io/pypi/pyversions/lektor-index-pages.svg)](https://pypi.python.org/pypi/lektor-index-pages/)
+[![GitHub license](https://img.shields.io/github/license/dairiki/lektor-index-pages)](https://github.com/dairiki/lektor-index-pages/blob/master/LICENSE)
+[![GitHub Actions (Tests)](https://github.com/dairiki/lektor-index-pages/workflows/Tests/badge.svg)](https://github.com/dairiki/lektor-index-pages)
+
+
 This [Lektor][] plugin can be used to generate “index pages” for a
 blog or similar collection of pages.  These index pages list the blog posts
 segregated by some key, with each index page containing only those posts
