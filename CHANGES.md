@@ -1,11 +1,16 @@
 ## Changelog
 
+### Unreleased
+
+- Documentation moved from README to Sphinx docs at RTFD.io
+
 ### 0.1a2 — 2020-05-06
 
 #### API changes
 
-- Drop the `record` argument from the (jinja) global `index_pages` function.
-  (Since indexes can not have multiple parents, it is not necessary.)
+- The `record` argument has been dropped from the (jinja) global
+  `index_pages` function.  (Since indexes can not have multiple
+  parents, it is not necessary.)
 
 - The `parent` configuration key has been renamed to `parent_path`.
 
