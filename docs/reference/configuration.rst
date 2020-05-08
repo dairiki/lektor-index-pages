@@ -106,3 +106,11 @@ parent indexes config section (:samp:`[{index-name}]`).
 The only keys supported in the sub-index config section are ``key``,
 ``template``, ``slug_format``, and (to declare a sub-sub-index) ``subindex``.
 These have the same meanings as they do for a top-level index.
+
+Annotated Example
+-----------------
+
+Because an example is worth more than a few words, here's an annotated exmple configuration file:
+
+.. literalinclude:: ../../example.ini
+   :language: ini
