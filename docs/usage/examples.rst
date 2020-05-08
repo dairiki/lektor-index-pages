@@ -75,7 +75,7 @@ like this to link to the category index pages:
 A Hairier Example: Date Index by Year then Month
 ------------------------------------------------
 
-In `configs/index-pages.ini`:
+In ``configs/index-pages.ini``:
 
 .. code-block:: ini
    :caption: ``config/index-pages.ini``
@@ -101,8 +101,8 @@ In `configs/index-pages.ini`:
    month = this.key|int
 
 
-This will create year-index pages at URL path :samp:`/blog/{yyyy}/` and
-month-indexes at `/blog/{yyyy}/{mm}/`.
+This will create year-index pages at URL path :samp:`/blog/{YYYY}/` and
+month-indexes at :samp:`/blog/{YYYY}/{MM}/`.
 
 Note that if the blog-post post slug format is properly configured —
 something like
@@ -117,5 +117,5 @@ something like
 
    [...]
 
-then blog posts will be placed at :samp:`/blog/{yyyy}/{mm}/{post-id}/`
+then blog posts will be placed at :samp:`/blog/{YYYY}/{MM}/{post-id}/`
 which will jibe nicely with the index URL layout described above.
