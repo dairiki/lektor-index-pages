@@ -136,7 +136,7 @@ class TestIndexModel(object):
         return blog_post
 
     @pytest.fixture
-    def keys(self):
+    def key(self):
         return "this.tags"
 
     @pytest.fixture
@@ -153,10 +153,10 @@ class TestIndexModel(object):
 
     @pytest.fixture
     def model(self, lektor_env, mocker,
-              keys, template, slug_format, fields, pagination_config):
+              key, template, slug_format, fields, pagination_config):
         return IndexModel(
             lektor_env,
-            keys=keys,
+            key=key,
             template=template,
             slug_format=slug_format,
             fields=fields,
@@ -207,7 +207,7 @@ class TestIndexModel(object):
             assert rv.page_num == page_num
             assert rv.record == source.record
 
-    @pytest.mark.parametrize('keys, expected', [
+    @pytest.mark.parametrize('key, expected', [
         ("this.tags", ['tag1', 'tag2']),
         ("'{:04d}'.format(this.pub_date.year)", ['2020']),
         ("this.funky_tags", ['tag_1', 'täg2']),
@@ -279,16 +279,16 @@ class Test_index_models_from_ini(IniReaderBase):
         test_ini.write_text(inspect.cleandoc(u'''
         [index1]
         parent_path = /blog
-        keys = this.category
+        key = this.category
 
         [index2]
-        keys = this.tags
+        key = this.tags
 
         [index3]
         template = tmpl.html
 
         [index4.subindex]
-        keys = this.tags
+        key = this.tags
         '''))
         return test_ini
 
@@ -306,7 +306,7 @@ class Test_index_model_from_ini(IniReaderBase):
         test_ini = tmp_path_factory.mktemp('imfi') / 'test.ini'
         test_ini.write_text(inspect.cleandoc(u'''
         [index1]
-        keys = this.category
+        key = this.category
         template = tmpl.html
         subindex = subidx
         slug_format = "c-" ~ this.category
@@ -318,26 +318,26 @@ class Test_index_model_from_ini(IniReaderBase):
         per_page = 3
 
         [index1.subidx]
-        keys = this.subcategory
+        key = this.subcategory
         template = tmpl2.html
         '''))
         return test_ini
 
     def test(self, lektor_env, inifile):
         model = _index_model_from_ini(lektor_env, inifile, 'index1')
-        assert model.keys_expr.expr == "this.category"
+        assert model.key_expr.expr == "this.category"
         assert model.template == "tmpl.html"
         assert model.slug_expr.expr == '"c-" ~ this.category'
         assert model.datamodel.pagination_config.per_page == 3
         assert len(model.data_descriptors) == 1
         assert model.data_descriptors[0][0] == "foo"
 
-        assert model.subindex_model.keys_expr.expr == "this.subcategory"
+        assert model.subindex_model.key_expr.expr == "this.subcategory"
         assert model.subindex_model.template == "tmpl2.html"
 
-    def test_keys_required(self, lektor_env, inifile):
-        del inifile['index1.keys']
-        with pytest.raises(RuntimeError, match="keys required"):
+    def test_key_required(self, lektor_env, inifile):
+        del inifile['index1.key']
+        with pytest.raises(RuntimeError, match="key required"):
             _index_model_from_ini(lektor_env, inifile, 'index1')
 
 

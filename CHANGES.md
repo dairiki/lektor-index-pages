@@ -2,6 +2,15 @@
 
 ### Unreleased
 
+#### API changes
+
+- Added a `key` field on the index virtual source object.  It is an alias to `_id`,
+  but is syntactically more self-explanatory.
+
+- The `keys` configuration key has been renamed to `key`.
+
+#### Documentation
+
 - Documentation moved from README to Sphinx docs at RTFD.io
 
 ### 0.1a2 — 2020-05-06

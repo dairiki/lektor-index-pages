@@ -23,10 +23,10 @@ configuration in ``configs/index-pages.ini``.
    items = site.get('/blog').children
 
    # the category of each post is what is being indexed
-   keys = this.category
+   key = this.category
 
    # the index pages will be placed at URL path /category/<category>/
-   slug_format = 'category/{}'.format(this._id)
+   slug_format = 'category/{}'.format(this.key)
 
    # this template will be rendered, once for each category to generate the indexes
    template = category-index.html
@@ -34,7 +34,7 @@ configuration in ``configs/index-pages.ini``.
    [category.fields]
    # Define the `category` field of the index pages to be an alias for the index `id`
    # (which is the key for the index page — in this case the category.)
-   category = this._id
+   category = this.key
 
 
 The index template, in this case ``category-index.html``, might look like:
@@ -82,23 +82,23 @@ In `configs/index-pages.ini`:
 
    [date]
    parent_path = /blog
-   keys = '{.year:04d}'.format(this.pub_date)
+   key = '{.year:04d}'.format(this.pub_date)
    template = blog-year-index.html
    subindex = month
 
    [date.fields]
    date = this.children.first().pub_date.replace(month=1, day=1)
-   year = this._id|int
+   year = this.key|int
 
    [date.month]
-   keys = '{.month:02d}'.format(this.pub_date)
+   key = '{.month:02d}'.format(this.pub_date)
    template = blog-month-index.html
 
    [date.month.fields]
    # this.parent is the year-index page this month-index belongs to.
-   date = this.parent.date.replace(month=this._id|int)
+   date = this.parent.date.replace(month=this.key|int)
    year = this.parent.year
-   month = this._id|int
+   month = this.key|int
 
 
 This will create year-index pages at URL path :samp:`/blog/{yyyy}/` and

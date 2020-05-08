@@ -28,6 +28,7 @@ def get_system_data(model, id_):
     # IndexSource.__getitem__ will call its __get__
     return {
         '_id': id_,
+        'key': id_,
         '_slug': IndexSource._slug,
         '_path': IndexSource.path,
         '_gid': IndexSource._gid,

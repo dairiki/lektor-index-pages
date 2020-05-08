@@ -13,7 +13,7 @@ Top-Level Indexes
 -----------------
 
 Each section in the config file which has a *non-dotted* section name
-and which includes a setting for the ``keys`` key defines a top-level
+and which includes a setting for the ``key`` key defines a top-level
 index.  The index is named after the section name.
 
 Recognized keys:
@@ -34,7 +34,7 @@ Recognized keys:
 
 .. _query: https://www.getlektor.com/docs/api/db/query/
 
-``keys``
+``key``
 
     **Required**.
     This key defines the index key(s).
@@ -53,7 +53,7 @@ Recognized keys:
     Specifies the URL slug to be used for the index pages in this index.
     This is a jinja-evaluated expression evaulated in a context with ``this`` set
     to the index page virtual source object.
-    The default is ``this._id``.
+    The default is ``this.key`` (or, equivalently, ``this._id``).
 
 ``subindex``
 
@@ -103,6 +103,6 @@ is the name of the sub-index specified in the ``subindex`` key of the
 parent indexes config section (:samp:`[{index-name}]`).
 
 
-The only keys supported in the sub-index config section are ``keys``,
+The only keys supported in the sub-index config section are ``key``,
 ``template``, ``slug_format``, and (to declare a sub-sub-index) ``subindex``.
 These have the same meanings as they do for a top-level index.

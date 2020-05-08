@@ -102,7 +102,7 @@ class IndexRootModel(IndexModelBase):
 
 class IndexModel(IndexModelBase):
     def __init__(self, env,
-                 keys,
+                 key,
                  template=None,
                  slug_format=None,
                  fields=None,
@@ -121,7 +121,7 @@ class IndexModel(IndexModelBase):
         expr = ExpressionCompiler(
             env, section=index_name, filename=config_filename)
         self.template = template
-        self.keys_expr = expr('keys', keys)
+        self.key_expr = expr('key', key)
         self.slug_expr = expr('slog', slug_format) if slug_format else None
 
         fields_section = "%s.fields" % index_name if index_name else None
@@ -152,7 +152,7 @@ class IndexModel(IndexModelBase):
                 return pagination_config.get_record_for_page(source, page_num)
 
     def keys_for_post(self, record):
-        keys = self.keys_expr.__get__(record)
+        keys = self.key_expr.__get__(record)
         return filter(bool, map(_idify, always_iterable(keys)))
 
     def get_slug(self, source):
@@ -213,7 +213,7 @@ def index_models_from_ini(env, inifile):
     def is_index(section_name):
         if '.' in section_name:
             return False
-        return (section_name + '.keys') in inifile
+        return (section_name + '.key') in inifile
 
     for index_name in filter(is_index, inifile.sections()):
         parent_path = inifile.get(index_name + '.parent_path')
@@ -239,11 +239,11 @@ def _index_model_from_ini(env, inifile, index_name,
         # (We ignore them on subindexes.)
         pass
 
-    keys = inifile.get(prefix + 'keys')
+    key = inifile.get(prefix + 'key')
     slug_format = inifile.get(prefix + 'slug_format')
     template = inifile.get(prefix + 'template')
-    if not keys:
-        raise RuntimeError("keys required")
+    if not key:
+        raise RuntimeError("key required")
 
     fields = _field_config_from_ini(inifile, index_name)
     pagination_config = _pagination_config_from_ini(
@@ -259,7 +259,7 @@ def _index_model_from_ini(env, inifile, index_name,
 
     return IndexModel(
         env,
-        keys=keys,
+        key=key,
         template=template,
         slug_format=slug_format,
         fields=fields,

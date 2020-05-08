@@ -32,7 +32,7 @@ index pages for the index.
         defined of the indexes ``items`` setting.  I.e. the *items* are iterated
         through; the *keys* are computed for each item in order; the index
         source for the first key encountered will be listed first in *subindexes*,
-        the index for the second key encountered will be listed second, etc.
+        the index for the second unique key encountered will be listed second, etc.
 
 
 
@@ -43,7 +43,8 @@ The items in the root index’s :attr:`~.IndexRoot.subindexes` query
 live at path_\s like :samp:`{parent}@index-pages/{index-name}/{key}`,
 where :samp:`{key}` is the index key for the page.
 
-Useful fields on the index page include `_id`, which is equal to the index
+Useful fields on the index page include ``key`` (or, equivalently, ``_id``,)
+which is equal to the index
 key for the page, as well as any custom fields configured in the
 :samp:`[{index-name}.fields]` section of ``index-pages.ini``.
 
