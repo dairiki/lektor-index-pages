@@ -23,7 +23,7 @@ configuration in ``configs/index-pages.ini``.
    items = site.get('/blog').children
 
    # the category of each post is what is being indexed
-   key = this.category
+   key = item.category
 
    # the index pages will be placed at URL path /category/<category>/
    slug_format = 'category/{}'.format(this.key)
@@ -82,7 +82,7 @@ In `configs/index-pages.ini`:
 
    [date]
    parent_path = /blog
-   key = '{.year:04d}'.format(this.pub_date)
+   key = '{.year:04d}'.format(item.pub_date)
    template = blog-year-index.html
    subindex = month
 
@@ -91,7 +91,7 @@ In `configs/index-pages.ini`:
    year = this.key|int
 
    [date.month]
-   key = '{.month:02d}'.format(this.pub_date)
+   key = '{.month:02d}'.format(item.pub_date)
    template = blog-month-index.html
 
    [date.month.fields]

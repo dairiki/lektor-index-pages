@@ -137,7 +137,7 @@ class TestIndexModel(object):
 
     @pytest.fixture
     def key(self):
-        return "this.tags"
+        return "item.tags"
 
     @pytest.fixture
     def template(self):
@@ -208,9 +208,9 @@ class TestIndexModel(object):
             assert rv.record == source.record
 
     @pytest.mark.parametrize('key, expected', [
-        ("this.tags", ['tag1', 'tag2']),
-        ("'{:04d}'.format(this.pub_date.year)", ['2020']),
-        ("this.funky_tags", ['tag_1', 'täg2']),
+        ("item.tags", ['tag1', 'tag2']),
+        ("'{:04d}'.format(item.pub_date.year)", ['2020']),
+        ("item.funky_tags", ['tag_1', 'täg2']),
         ])
     def test_keys_for_post(self, model, blog_post, expected):
         assert list(model.keys_for_post(blog_post)) == expected
@@ -279,16 +279,16 @@ class Test_index_models_from_ini(IniReaderBase):
         test_ini.write_text(inspect.cleandoc(u'''
         [index1]
         parent_path = /blog
-        key = this.category
+        key = item.category
 
         [index2]
-        key = this.tags
+        key = item.tags
 
         [index3]
         template = tmpl.html
 
         [index4.subindex]
-        key = this.tags
+        key = item.tags
         '''))
         return test_ini
 
@@ -306,7 +306,7 @@ class Test_index_model_from_ini(IniReaderBase):
         test_ini = tmp_path_factory.mktemp('imfi') / 'test.ini'
         test_ini.write_text(inspect.cleandoc(u'''
         [index1]
-        key = this.category
+        key = item.category
         template = tmpl.html
         subindex = subidx
         slug_format = "c-" ~ this.category
@@ -318,21 +318,21 @@ class Test_index_model_from_ini(IniReaderBase):
         per_page = 3
 
         [index1.subidx]
-        key = this.subcategory
+        key = item.subcategory
         template = tmpl2.html
         '''))
         return test_ini
 
     def test(self, lektor_env, inifile):
         model = _index_model_from_ini(lektor_env, inifile, 'index1')
-        assert model.key_expr.expr == "this.category"
+        assert model.key_expr.expr == "item.category"
         assert model.template == "tmpl.html"
         assert model.slug_expr.expr == '"c-" ~ this.category'
         assert model.datamodel.pagination_config.per_page == 3
         assert len(model.data_descriptors) == 1
         assert model.data_descriptors[0][0] == "foo"
 
-        assert model.subindex_model.key_expr.expr == "this.subcategory"
+        assert model.subindex_model.key_expr.expr == "item.subcategory"
         assert model.subindex_model.template == "tmpl2.html"
 
     def test_key_required(self, lektor_env, inifile):

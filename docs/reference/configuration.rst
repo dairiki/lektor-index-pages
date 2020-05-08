@@ -38,7 +38,7 @@ Recognized keys:
 
     **Required**.
     This key defines the index key(s).
-    It is a jinja-evaluated expression which is evaluated in a context with ``this``
+    It is a jinja-evaluated expression which is evaluated in a context with ``item``
     set to the record to be indexed.  This expression should evaluate
     either to a single string, or, for multi-valued keys, to a sequence of
     strings.

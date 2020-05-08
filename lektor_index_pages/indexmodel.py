@@ -152,7 +152,8 @@ class IndexModel(IndexModelBase):
                 return pagination_config.get_record_for_page(source, page_num)
 
     def keys_for_post(self, record):
-        keys = self.key_expr.__get__(record)
+        keys = self.key_expr.evaluate(
+            record.pad, values={'item': record}, alt=record.alt)
         return filter(bool, map(_idify, always_iterable(keys)))
 
     def get_slug(self, source):
