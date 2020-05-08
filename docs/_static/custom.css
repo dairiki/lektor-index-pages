@@ -1,0 +1,13 @@
+#changelog > div {
+    padding-left: 1rem;
+}
+#changelog > div > h2 {
+    margin-left: -1rem;
+    border-bottom: 1px solid gray;
+}
+#changelog h3 {
+    font-size: 130%;
+}
+#changelog h4 {
+    font-size: 115%;
+}

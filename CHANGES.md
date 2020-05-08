@@ -4,19 +4,22 @@
 
 #### API changes
 
-- Added a `key` field on the index virtual source object.  It is an alias to `_id`,
-  but is syntactically more self-explanatory.
+- Added a `key` field on the index virtual source object.  It is an
+  alias to `_id`, but is syntactically more self-explanatory.
 
 - The `keys` configuration key has been renamed to `key`.
 
-- When the `key` expression is being evaluted, the record whose key(s) is(are) to be
-  be computed is now available in the jinja context as `item` rather than `this`.
+- When the `key` expression is being evaluted, the record whose key(s)
+  is(are) to be be computed is now available in the jinja context as
+  `item` rather than `this`.
 
 #### Documentation
 
 - Documentation moved from README to Sphinx docs at RTFD.io
 
-### 0.1a2 — 2020-05-06
+### Version 0.1a2
+
+Released 2020-05-06.
 
 #### API changes
 
@@ -34,6 +37,8 @@
   are more field-like than attribute-like.  (I.e. access is via
   *__getitem__* rather than *getattr*.)
 
-### 0.1a1 — 2020-05-05
+### Version 0.1a1
+
+Released 2020-05-05.
 
 Initial release.

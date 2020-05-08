@@ -48,6 +48,7 @@ Contents
    reference/virtualsources
    reference/templateapi
 
+   CHANGES
 
 Indices and tables
 ==================
