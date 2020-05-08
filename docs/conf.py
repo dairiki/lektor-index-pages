@@ -56,6 +56,11 @@ html_theme_options = {
     'github_count': False,
     'github_user': 'dairiki',
     'github_repo': 'lektor-index-pages',
+
+    'extra_nav_links': {
+        "PyPI releases": "https://pypi.org/project/lektor-index-pages/",
+        "Source Code": "https://github.com/dairiki/lektor-index-pages/",
+        },
     }
 
 # Add any paths that contain custom static files (such as style sheets) here,
