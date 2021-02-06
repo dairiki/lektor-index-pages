@@ -122,7 +122,8 @@ class IndexModel(IndexModelBase):
             env, section=index_name, filename=config_filename)
         self.template = template
         self.key_expr = expr('key', key)
-        self.slug_expr = expr('slog', slug_format) if slug_format else None
+        self.slug_expr = \
+            expr('slug_format', slug_format) if slug_format else None
 
         fields_section = "%s.fields" % index_name if index_name else None
         field = ExpressionCompiler(
