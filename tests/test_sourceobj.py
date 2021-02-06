@@ -143,7 +143,7 @@ class TestIndexSource(object):
 
     @pytest.mark.parametrize("year_index_slug_format, expected", [
         (None, "/blog/2020/"),
-        ("this._id ~ '_html'", "/blog/2020_html/"),
+        ("this._id ~ '-html'", "/blog/2020-html/"),
         ("'{}.html'.format(this._id)", "/blog/2020.html"),
         ])
     def test_url_path(self, year_index, expected):
