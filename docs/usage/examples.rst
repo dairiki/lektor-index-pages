@@ -16,7 +16,7 @@ configuration in ``configs/index-pages.ini``.
 
    [category]
 
-   # index page are rooted at /
+   # index page is rooted at /
    parent_path = /
 
    # the blog children are what is indexed
