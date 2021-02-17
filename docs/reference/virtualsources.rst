@@ -5,11 +5,11 @@ The index pages are generated as `virtual source objects <virtual_>`_
 
 .. _virtual: https://www.getlektor.com/docs/api/db/obj/#virtual-source-objects
 
+
 .. module:: lektor_index_pages.sourceobj
 
 The Index Roots
 ---------------
-
 
 Each top-level index will have a root virtual source.  These have
 `Lektor paths <path_>`_ like :samp:`{parent}@index-pages/{index-name}`.
@@ -33,7 +33,6 @@ index pages for the index.
         through; the *keys* are computed for each item in order; the index
         source for the first key encountered will be listed first in *subindexes*,
         the index for the second unique key encountered will be listed second, etc.
-
 
 
 The Index Pages

@@ -18,7 +18,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'Lektor Index Pages'
-copyright = '2020, Jeff Dairiki'
+copyright = '2020-2021, Jeff Dairiki'
 author = 'Jeff Dairiki'
 
 master_doc = 'index'

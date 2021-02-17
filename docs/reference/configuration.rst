@@ -21,7 +21,7 @@ Recognized keys:
 ``parent_path``
 
     The lektor path_ of the record under which the index virtual
-    source objects will be created.  This defaults to “:samp:`/`”.
+    source objects will be created.  This defaults to ":samp:`/`".
 
 .. _path: https://www.getlektor.com/docs/content/paths/
 
@@ -30,7 +30,7 @@ Recognized keys:
     A jinja-evaluated expression which specifies the query_ used to
     determine which records are to be indexed.  It defaults to
     :samp:`{parent}.children`, where :samp:`{parent}` is the record
-    specified by the ``parent_path`` key (see above.)
+    specified by the ``parent_path`` key (see above).
 
 .. _query: https://www.getlektor.com/docs/api/db/query/
 
@@ -61,16 +61,20 @@ Recognized keys:
     sub-index.  The sub-index must be configured in its own config
     section (see :ref:`below <subindex-config>`.)
 
+
 Fields
 ------
 
 There may be an additional section in the config file for each index named
 :samp:`[{index-name}.fields]` which can be used to define fields which will be
-made available on the index :term:`virtual source object`\s.
+made available on the index `virtual source object`\s.
 
 Each key in the *fields* config section defines a field of the same
-name.  The value of the key is a jinja-evaluated expression which is
+name.  The value of the key is a `jinja-evaluated expression <expression_>`_ which is
 evaluated with ``this`` set to the index virtual source object.
+
+.. _expression: https://jinja.palletsprojects.com/templates/#expressions
+
 
 Pagination
 ----------
@@ -81,15 +85,16 @@ index (and its sub-indexes) may be placed in a config section named
 :samp:`[{index-name}.pagination]`.  (And so on: sub-index specific
 pagination settings go in
 :samp:`[{index-name}.{subindex-name}.pagination]`.)
-Settings from all of these sections will be merged, with those from
+Settings from all of these sections are merged, with those from
 more specific sections overriding the settings in the generic sections.
 
 The keys recognized in this section are ``enabled``, ``per_page``, and
 ``url_suffix``.  These work the same as the like-named keys for
-`Lektor’s built-in pagination system <pagination_>`_, with the exception
+`Lektor’s built-in pagination system <pagination_>`_ and `project file`_, with the exception
 that the ``items`` key is not supported.
 
 .. _pagination: https://www.getlektor.com/docs/models/children/#pagination
+.. _project file: https://www.getlektor.com/docs/project/file/#alternatives.*]%60
 
 
 .. _subindex-config:
@@ -102,10 +107,10 @@ Sub-indexes are configured in a section named
 is the name of the sub-index specified in the ``subindex`` key of the
 parent indexes config section (:samp:`[{index-name}]`).
 
-
 The only keys supported in the sub-index config section are ``key``,
 ``template``, ``slug_format``, and (to declare a sub-sub-index) ``subindex``.
 These have the same meanings as they do for a top-level index.
+
 
 Annotated Example
 -----------------
