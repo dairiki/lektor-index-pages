@@ -73,8 +73,13 @@ Each key in the *fields* config section defines a field of the same
 name.  The value of the key is a `jinja-evaluated expression <expression_>`_ which is
 evaluated with ``this`` set to the index virtual source object.
 
-.. _expression: https://jinja.palletsprojects.com/templates/#expressions
+Please note that the config file is first and foremost parsed by `inifile`_,
+which strips outer quote marks (but only if they're the same: ``"`` or ``'``),
+before jinja gets a chance to evaluate the resulting expression.
+This is especially important when working with constant values for your fields.
 
+.. _expression: https://jinja.palletsprojects.com/templates/#expressions
+.. _inifile: https://github.com/mitsuhiko/python-inifile
 
 Pagination
 ----------
