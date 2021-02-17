@@ -1,5 +1,11 @@
 ## Changelog
 
+### Unreleased
+
+#### Documentation
+
+Add `docs` enviroment to `tox.ini` to test that docs will build cleanly.
+
 ### Version 0.1 (2021-02-05)
 
 No code changes.
