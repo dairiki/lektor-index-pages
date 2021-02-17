@@ -4,10 +4,8 @@ Examples
 "Simple" Example: A Category Index
 ----------------------------------
 
-Let's assume your blog posts already include a string-valued **category**
-field in their `datamodel`_, and the blog posts live under the blog
-at Lektor path ``/blog``. A category index could be generated with the following
-configuration in ``configs/index-pages.ini``.
+Let's assume your blog posts already include a string-valued **category** field in their `datamodel`_, and the blog posts live under the blog at Lektor path ``/blog``. 
+A category index could be generated with the following configuration in ``configs/index-pages.ini``.
 
 .. _datamodel: https://www.getlektor.com/docs/models/
 
@@ -55,8 +53,7 @@ The index template, in configured above to be ``category-index.html``, might loo
    {% endblock %}
 
 
-In the template for the blog parent page (at ``/blog``) one could do something
-like this to link to the category index pages:
+In the template for the blog parent page (at ``/blog``) one could do something like this to link to the category index pages:
 
 .. code-block:: html+jinja
    :caption: ``templates/blog.html``
@@ -103,11 +100,9 @@ In ``configs/index-pages.ini``:
    month = this.key|int
 
 
-This will create year-index pages at URL path :samp:`/blog/{YYYY}/` and
-month-indexes at :samp:`/blog/{YYYY}/{MM}/`.
+This will create year-index pages at URL path :samp:`/blog/{YYYY}/` and month-indexes at :samp:`/blog/{YYYY}/{MM}/`.
 
-Note that if the blog-post post slug format is properly configured —
-something like
+Note that if the blog-post post slug format is properly configured — something like
 
 .. code-block:: ini
    :caption: models/blog.ini
@@ -119,5 +114,4 @@ something like
 
    [...]
 
-then blog posts will be placed at :samp:`/blog/{YYYY}/{MM}/{post-id}/`
-which will jibe nicely with the index URL layout described above.
+then blog posts will be placed at :samp:`/blog/{YYYY}/{MM}/{post-id}/` which will jibe nicely with the index URL layout described above.

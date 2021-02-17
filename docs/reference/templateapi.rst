@@ -4,8 +4,7 @@ Template API
 Globals
 -------
 
-This plugin inserts a template global function **index_pages** which can
-be used to access the index pages for an index.
+This plugin inserts a template global function **index_pages** which can be used to access the index pages for an index.
 
 .. module:: lektor_index_pages
 
