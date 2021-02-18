@@ -5,19 +5,16 @@ The index pages are generated as `virtual source objects <virtual_>`_
 
 .. _virtual: https://www.getlektor.com/docs/api/db/obj/#virtual-source-objects
 
+
 .. module:: lektor_index_pages.sourceobj
 
 The Index Roots
 ---------------
 
-
-Each top-level index will have a root virtual source.  These have
-`Lektor paths <path_>`_ like :samp:`{parent}@index-pages/{index-name}`.
-The index root sources do not actually generate any artifacts —
-they serve primarily as the parents for the actual index pages.
-For the most part, they have one useful attribute, `subindexes`
-which contains a Lektor Query instance containing the individual
-index pages for the index.
+Each top-level index will have a root virtual source.  
+These have `Lektor paths <path_>`_ like :samp:`{parent}@index-pages/{index-name}`.
+The index root sources do not actually generate any artifacts — they serve primarily as the parents for the actual index pages.
+For the most part, they have one useful attribute, `subindexes` which contains a Lektor Query instance containing the individual index pages for the index.
 
 .. _path: https://www.getlektor.com/docs/content/paths/
 
@@ -35,18 +32,12 @@ index pages for the index.
         the index for the second unique key encountered will be listed second, etc.
 
 
-
 The Index Pages
 ---------------
 
-The items in the root index’s :attr:`~.IndexRoot.subindexes` query
-live at path_\s like :samp:`{parent}@index-pages/{index-name}/{key}`,
-where :samp:`{key}` is the index key for the page.
+The items in the root index’s :attr:`~.IndexRoot.subindexes` query live at path_\s like :samp:`{parent}@index-pages/{index-name}/{key}`, where :samp:`{key}` is the index key for the page.
 
-Useful fields on the index page include ``key`` (or, equivalently, ``_id``,)
-which is equal to the index
-key for the page, as well as any custom fields configured in the
-:samp:`[{index-name}.fields]` section of ``index-pages.ini``.
+Useful fields on the index page include ``key`` (or, equivalently, ``_id``,) which is equal to the index key for the page, as well as any custom fields configured in the :samp:`[{index-name}.fields]` section of ``index-pages.ini``.
 
 Useful attributes on the index page virtual source objects include:
 

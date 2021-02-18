@@ -1,7 +1,7 @@
 Installation
 ============
 
-Add **lektor-index-pages** to your project from command line:
+Add **lektor-index-pages** to your project from the command line:
 
 .. code-block:: sh
 
