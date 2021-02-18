@@ -4,9 +4,14 @@
 
 #### Documentation
 
-Add missing requirement `recommonmark` to `docs/requirements.txt`.
+- Documentation clarifications, updates and fixes.
+    (PR [#2][] — Thank you Bart Van Loon!)
 
-Add `docs` enviroment to `tox.ini` to test that docs will build cleanly.
+- Add missing requirement `recommonmark` to `docs/requirements.txt`.
+
+- Add `docs` enviroment to `tox.ini` to test that docs will build cleanly.
+
+[#2]: <https://github.com/dairiki/lektor-index-pages/pull/2>
 
 ### Version 0.1 (2021-02-05)
 
