@@ -13,6 +13,10 @@
 
 [#2]: <https://github.com/dairiki/lektor-index-pages/pull/2>
 
+#### Testing
+
+- Test under python 3.10 and lektor<3.3
+
 ### Version 0.1 (2021-02-05)
 
 No code changes.
