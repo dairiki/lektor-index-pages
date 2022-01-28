@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """ Configurable logic that controls how indexes work
 
 """
@@ -13,7 +12,7 @@ from lektor.utils import slugify
 VIRTUAL_PATH_PREFIX = 'index-pages'
 
 
-class IndexDataModel(object):
+class IndexDataModel:
 
     def __init__(self, id, config_filename, pagination_config):
         self.id = id
@@ -38,18 +37,18 @@ class PaginationConfig(lektor.datamodel.PaginationConfig):
         for_page = getattr(source, '__for_page__', None)
         if callable(for_page):
             return for_page(page_num)
-        return super(PaginationConfig, self).get_record_for_page(
+        return super().get_record_for_page(
             source, page_num)
 
 
-class IndexModelBase(object):
+class IndexModelBase:
 
     def __init__(self, env,
                  pagination_config=None,
                  subindex_model=None,
                  config_filename=None):
 
-        datamodel_id = '@{}'.format(self.__class__.__name__)
+        datamodel_id = f'@{self.__class__.__name__}'
         if pagination_config is None:
             pagination_config = PaginationConfig(env, enabled=False)
         datamodel = IndexDataModel(datamodel_id,
@@ -70,7 +69,7 @@ class IndexRootModel(IndexModelBase):
                  parent_path=None,
                  items=None,
                  config_filename=None):
-        super(IndexRootModel, self).__init__(
+        super().__init__(
             env,
             subindex_model=index_model,
             config_filename=config_filename)
@@ -88,7 +87,7 @@ class IndexRootModel(IndexModelBase):
     def get_virtual_path(self, parent, id_=None, page_num=None):
         assert page_num is None
         assert id_ is None or id_ == self.index_name
-        return "{}/{}".format(VIRTUAL_PATH_PREFIX, self.index_name)
+        return f"{VIRTUAL_PATH_PREFIX}/{self.index_name}"
 
     def match_path_pagination(self, source, url_path):
         return None
@@ -110,7 +109,7 @@ class IndexModel(IndexModelBase):
                  subindex_model=None,
                  index_name=None,
                  config_filename=None):
-        super(IndexModel, self).__init__(
+        super().__init__(
             env,
             pagination_config=pagination_config,
             subindex_model=subindex_model,
@@ -137,7 +136,7 @@ class IndexModel(IndexModelBase):
         assert parent.page_num is None
         pieces = [parent.virtual_path, id_]
         if page_num is not None:
-            pieces.append('page/{:d}'.format(page_num))
+            pieces.append(f'page/{page_num:d}')
         return '/'.join(pieces)
 
     def match_path_pagination(self, source, pieces):
@@ -166,7 +165,7 @@ class IndexModel(IndexModelBase):
         return slugify(slug)
 
 
-class ExpressionCompiler(object):
+class ExpressionCompiler:
     # This is here to provide useful error messages in case
     # there is a jinja syntax error within one of the evaluated
     # fields in the config file.
@@ -180,9 +179,9 @@ class ExpressionCompiler(object):
     def location(self):
         bits = []
         if self.section:
-            bits.append(" in section [{.section}]".format(self))
+            bits.append(f" in section [{self.section}]")
         if self.filename:
-            bits.append("\n    in file {.filename}".format(self))
+            bits.append(f"\n    in file {self.filename}")
         return ''.join(bits)
 
     def __call__(self, name, expr):
@@ -196,7 +195,7 @@ class ExpressionCompiler(object):
                     location=self.location, name=name, expr=expr, exc=exc))
 
 
-class FieldDescriptor(object):
+class FieldDescriptor:
     def __init__(self, env, expr):
         self.expr = expr
         self.evaluate = Expression(env, expr).evaluate

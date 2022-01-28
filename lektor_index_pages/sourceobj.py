@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """ Virtual source objects for the indexes.
 
 """
@@ -100,7 +99,7 @@ class IndexBase(VirtualSourceObject):
 
     @cached_property
     def path(self):
-        return "{}@{}".format(self.record.path, self.virtual_path)
+        return f"{self.record.path}@{self.virtual_path}"
 
     def resolve_virtual_path(self, pieces):
         if not pieces:
@@ -183,7 +182,7 @@ class IndexBase(VirtualSourceObject):
             else:
                 # Pagination is in effect, but we're the unpaginated page.
                 # We change if the number of pages changes
-                child_paths = "NPAGES={}".format(self.pagination.pages)
+                child_paths = f"NPAGES={self.pagination.pages}"
 
         subindex_ids = getattr(self, '_subindex_ids', None)
         if subindex_ids is not None:
@@ -228,7 +227,7 @@ class IndexBase(VirtualSourceObject):
             path=self.__for_page__(None).path,  # path without page_num
             alt=self.alt,
             page_num=self.page_num)
-        return "<%s %s>" % (self.__class__.__name__, desc)
+        return f"<{self.__class__.__name__} {desc}>"
 
 
 class IndexRoot(IndexBase):
@@ -362,6 +361,6 @@ class IndexSource(IndexBase):
         return [cmp_val(field) for field in fields]
 
 
-class DummyCache(object):
+class DummyCache:
     def get_or_create(self, key, creator):
         return creator()

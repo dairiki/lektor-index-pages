@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 try:
     from pathlib import Path
 except ImportError:             # pragma: no cover

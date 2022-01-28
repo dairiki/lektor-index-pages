@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import copy
 import datetime
 from operator import itemgetter
@@ -70,7 +68,7 @@ def index(request, lektor_alt):
 
 
 @pytest.mark.usefixtures('plugin')
-class TestIndexSource(object):
+class TestIndexSource:
     # FIXME: these tests should be reorganized
 
     def test_get_index_root(self, index_root_model, blog_record):
@@ -266,7 +264,7 @@ class TestIndexSource(object):
             )
 
     @pytest.mark.parametrize('data, checksum', [
-        ((u"path", [u"c1"], (u"id")),
+        (("path", ["c1"], ("id")),
          "e2df3e68cc1a7573ec975aad5b2eb17e1d445165"),
         ])
     def test_compute_checksum(self, data, checksum):

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """ Build program for the index pages.
 """
 
@@ -46,5 +45,4 @@ class IndexBuildProgram(BuildProgram):
 
         subindexes = getattr(source, 'subindexes', None)
         if subindexes is not None:
-            for subindex in subindexes:
-                yield subindex
+            yield from subindexes

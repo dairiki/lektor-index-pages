@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import copy
 import datetime
 import inspect
@@ -33,7 +31,7 @@ def pagination_config(lektor_env, pagination_enabled):
     return PaginationConfig(lektor_env, enabled=pagination_enabled, **kw)
 
 
-class DummyQuery(object):
+class DummyQuery:
     def __init__(self, count):
         self._count = count
 
@@ -41,7 +39,7 @@ class DummyQuery(object):
         return self._count
 
 
-class DummyPaginatable(object):
+class DummyPaginatable:
     def __init__(self, page_num=None, record=None, nchildren=0):
         if record is None:
             record = object()
@@ -58,7 +56,7 @@ class DummyPaginatable(object):
 
 
 @pytest.mark.parametrize("page_num", [None, 1, 2])
-class TestPaginationConfig(object):
+class TestPaginationConfig:
     @pytest.fixture(params=[False, True])
     def source(self, request, lektor_pad):
         if request.param:
@@ -74,7 +72,7 @@ class TestPaginationConfig(object):
         paginated.record is source.record
 
 
-class TestIndexRootModel(object):
+class TestIndexRootModel:
 
     @pytest.fixture
     def items(self):
@@ -114,7 +112,7 @@ class TestIndexRootModel(object):
             == paths
 
 
-class TestIndexModel(object):
+class TestIndexModel:
     @pytest.fixture
     def nchildren(self):
         return 1
@@ -230,7 +228,7 @@ class TestIndexModel(object):
         assert data['id_upper'].__get__(source) == 'SOURCE-ID'
 
 
-class TestExpressionCompiler(object):
+class TestExpressionCompiler:
     @pytest.fixture
     def filename(self):
         return 'config.ini'
@@ -264,7 +262,7 @@ class TestExpressionCompiler(object):
         assert desc.__get__(blog_record) == blog_record.path
 
 
-class IniReaderBase(object):
+class IniReaderBase:
     @pytest.fixture
     def inifile(self, test_ini):
         inifile = IniFile(str(test_ini))
@@ -276,7 +274,7 @@ class Test_index_models_from_ini(IniReaderBase):
     @pytest.fixture(scope='session')
     def test_ini(self, tmp_path_factory):
         test_ini = tmp_path_factory.mktemp('imsfi') / 'test.ini'
-        test_ini.write_text(inspect.cleandoc(u'''
+        test_ini.write_text(inspect.cleandoc('''
         [index1]
         parent_path = /blog
         key = item.category
@@ -304,7 +302,7 @@ class Test_index_model_from_ini(IniReaderBase):
     @pytest.fixture(scope='session')
     def test_ini(self, tmp_path_factory):
         test_ini = tmp_path_factory.mktemp('imfi') / 'test.ini'
-        test_ini.write_text(inspect.cleandoc(u'''
+        test_ini.write_text(inspect.cleandoc('''
         [index1]
         key = item.category
         template = tmpl.html
@@ -345,7 +343,7 @@ class Test_field_config_from_ini(IniReaderBase):
     @pytest.fixture(scope='session')
     def test_ini(self, tmp_path_factory):
         test_ini = tmp_path_factory.mktemp('acfi') / 'test.ini'
-        test_ini.write_text(inspect.cleandoc(u'''
+        test_ini.write_text(inspect.cleandoc('''
         [ind1.fields]
         foo = bar
 
@@ -369,7 +367,7 @@ class Test_pagination_from_ini(IniReaderBase):
     @pytest.fixture(scope='session')
     def test_ini(self, tmp_path_factory):
         test_ini = tmp_path_factory.mktemp('pfi') / 'test.ini'
-        test_ini.write_text(inspect.cleandoc(u'''
+        test_ini.write_text(inspect.cleandoc('''
         [pagination]
         per_page = 10
 

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import pytest
 
 from lektor_index_pages.config import (
@@ -9,7 +7,7 @@ from lektor_index_pages.config import (
 from lektor_index_pages.sourceobj import IndexRoot
 
 
-class TestConfig(object):
+class TestConfig:
     @pytest.fixture
     def parent_path(self):
         return '/blog'

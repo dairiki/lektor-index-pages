@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from lektor.builder import Builder
 from lektor.db import Database
 from lektor.environment import Environment

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Index pages for Lektor
 
 FIXME: figure out how to get stale index files to prune correctly
@@ -20,7 +19,7 @@ from .indexmodel import VIRTUAL_PATH_PREFIX
 from .sourceobj import IndexBase
 
 
-class Cache(object):
+class Cache:
     """Cache expensive computations by the indexes.
 
     This cache is used to store expensive computations made by the index source
@@ -59,12 +58,12 @@ class Cache(object):
 
 class IndexPagesPlugin(Plugin):
     name = 'Index Pages'
-    description = u'Lektor plugin to index pages.'
+    description = 'Lektor plugin to index pages.'
 
     _inifile = None         # for testing
 
     def __init__(self, env, id):
-        super(IndexPagesPlugin, self).__init__(env, id)
+        super().__init__(env, id)
         self.cache = Cache()
 
     def read_config(self):
@@ -118,7 +117,7 @@ class IndexPagesPlugin(Plugin):
         env.jinja_env.globals['index_pages'] = index_pages
 
 
-class IndexPages(object):
+class IndexPages:
     def __init__(self, index_root):
         self.index_root = index_root
 

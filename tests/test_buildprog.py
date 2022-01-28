@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import lektor.context
 import pytest
 
@@ -13,7 +11,7 @@ def index_root(config, lektor_pad):
     return config.get_index_root('year-index', lektor_pad)
 
 
-class Test_build_index_root(object):
+class Test_build_index_root:
     @pytest.fixture
     def source(self, index_root):
         return index_root
@@ -33,7 +31,7 @@ class Test_build_index_root(object):
             == ['/blog@index-pages/year-index/2020']
 
 
-class TestIndexBuildProgram(object):
+class TestIndexBuildProgram:
     @pytest.fixture
     def source(self, index_root):
         return index_root.resolve_virtual_path(['2020'])

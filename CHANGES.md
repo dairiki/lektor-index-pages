@@ -2,6 +2,8 @@
 
 ### Unreleased
 
+- Drop support for python 2.7
+
 #### Documentation
 
 - Documentation clarifications, updates and fixes.

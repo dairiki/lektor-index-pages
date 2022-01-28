@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """ Configuration and config-related logic.
 
 """
@@ -19,7 +18,7 @@ class NoSuchIndex(KeyError):
     pass
 
 
-class Config(object):
+class Config:
     def __init__(self, index_models):
         self.index_models = index_models
 

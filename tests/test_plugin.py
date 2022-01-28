@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import re
 
 import pytest
@@ -23,7 +22,7 @@ def record(lektor_pad, record_path):
     return record
 
 
-class TestCache(object):
+class TestCache:
     @pytest.fixture
     def cache(self):
         return Cache()
@@ -47,7 +46,7 @@ class TestCache(object):
         assert creator.mock_calls == [mocker.call(), mocker.call()]
 
 
-class TestIndexPagesPlugin(object):
+class TestIndexPagesPlugin:
     @pytest.fixture
     def plugin(self, lektor_env, my_plugin_id):
         return IndexPagesPlugin(lektor_env, my_plugin_id)
@@ -122,7 +121,7 @@ class TestIndexPagesPlugin(object):
         assert jinja2.is_undefined(rv)
 
 
-class TestIndexPages(object):
+class TestIndexPages:
     @pytest.fixture
     def alt(self):
         return PRIMARY_ALT
