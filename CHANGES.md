@@ -2,7 +2,7 @@
 
 ### Unreleased
 
-- Drop support for python 2.7
+- Drop support for python 2.7 and 3.6.
 
 #### Documentation
 
