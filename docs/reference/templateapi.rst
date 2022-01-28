@@ -10,7 +10,7 @@ This plugin inserts a template global function **index_pages** which can be used
 
 .. function:: index_pages(index_name, alt=PRIMARY_ALT)
 
-    **Index_pages** returns an interable of :class:`IndexSource` instances
+    **Index_pages** returns an interable of :class:`~lektor_index_pages.sourceobj.IndexSource` instances
     for the top-level index pages of the index named **index_name**.
 
     This function is provided mostly as syntactic sugar —

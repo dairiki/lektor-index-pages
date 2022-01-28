@@ -20,13 +20,13 @@
 
 - Test under python 3.10 and lektor<3.3
 
-### Version 0.1 (2021-02-05)
+### Release 0.1 (2021-02-05)
 
 No code changes.
 
 Update development status classifier to "stable".
 
-### Version 0.1a3 (2020-05-08)
+### Release 0.1a3 (2020-05-08)
 
 #### API changes
 
@@ -43,7 +43,7 @@ Update development status classifier to "stable".
 
 - Documentation moved from README to Sphinx docs at RTFD.io
 
-### Version 0.1a2 (2020-05-06)
+### Release 0.1a2 (2020-05-06)
 
 #### API changes
 
@@ -61,6 +61,6 @@ Update development status classifier to "stable".
   are more field-like than attribute-like.  (I.e. access is via
   *__getitem__* rather than *getattr*.)
 
-### Version 0.1a1 (2020-05-05)
+### Release 0.1a1 (2020-05-05)
 
 Initial release.

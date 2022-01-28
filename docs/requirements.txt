@@ -1,2 +1,2 @@
-sphinx >= 3.0.3, < 4
-recommonmark
+sphinx >= 4.4.0, < 5
+myst_parser >= 0.16.1

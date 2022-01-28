@@ -29,8 +29,14 @@ master_doc = 'index'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'recommonmark',
+    'myst_parser',
 ]
+
+myst_gfm_only = True
+
+# CHANGES.md starts with a level-2 header (so that it can be concatenated
+# with README.md to form the PyPI long description
+suppress_warnings = ["myst.header"]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
