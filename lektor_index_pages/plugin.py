@@ -101,7 +101,7 @@ class IndexPagesPlugin(Plugin):
             config = self.read_config()
             return config.resolve_url_path(record, url_path)
 
-        @jinja2.contextfunction
+        @jinja2.pass_context
         def index_pages(jinja_ctx, index_name, alt=PRIMARY_ALT):
             pad = jinja_ctx.resolve('site')
             if jinja2.is_undefined(pad):
