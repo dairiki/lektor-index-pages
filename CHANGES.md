@@ -1,6 +1,6 @@
 ## Changelog
 
-### Unreleased
+### Release 1.0 (2022-01-28)
 
 - Drop support for python 2.7 and 3.6.
 - Fix deprecation warning from `jinja2`. Jinja2 version 3 is now required.
