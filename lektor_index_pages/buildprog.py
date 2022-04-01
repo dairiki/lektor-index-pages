@@ -3,6 +3,7 @@
 
 from lektor.build_programs import BuildProgram
 from lektor.context import get_ctx
+from .pruner import track_not_prune
 
 
 class IndexBuildProgram(BuildProgram):
@@ -22,6 +23,7 @@ class IndexBuildProgram(BuildProgram):
                 # immediately after the build.  I guess this will do.
                 sources = [record.source_filename]
                 self.declare_artifact(artifact_name, sources=sources)
+                track_not_prune(artifact_name)
 
     def build_artifact(self, artifact):
         config_filename = self.source.datamodel.filename
@@ -32,6 +34,8 @@ class IndexBuildProgram(BuildProgram):
             if ctx is not None:
                 ctx.record_dependency(config_filename)
 
+        # for pruning we need the vpath url, so track self.source
+        self.source.pad.db.track_record_dependency(self.source)
         artifact.render_template_into(template, this=self.source)
 
     def iter_child_sources(self):
