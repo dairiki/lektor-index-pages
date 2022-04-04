@@ -29,13 +29,13 @@ class IndexBuildProgram(BuildProgram):
         config_filename = self.source.datamodel.filename
         template = self.source._data['_template']
 
-        if config_filename is not None:
-            ctx = get_ctx()
-            if ctx is not None:
+        ctx = get_ctx()
+        if ctx is not None:
+            # for pruning we need the vpath url, so track self.source
+            ctx.record_virtual_dependency(self.source)
+            if config_filename is not None:
                 ctx.record_dependency(config_filename)
 
-        # for pruning we need the vpath url, so track self.source
-        self.source.pad.db.track_record_dependency(self.source)
         artifact.render_template_into(template, this=self.source)
 
     def iter_child_sources(self):
