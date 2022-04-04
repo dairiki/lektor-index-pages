@@ -17,6 +17,7 @@ from .config import (
     )
 from .indexmodel import VIRTUAL_PATH_PREFIX
 from .sourceobj import IndexBase
+from .pruner import prune
 
 
 class Cache:
@@ -74,6 +75,9 @@ class IndexPagesPlugin(Plugin):
 
     def on_before_build_all(self, builder, **extra):
         self.cache.clear()
+
+    def on_after_prune(self, builder, all, **extra):
+        prune(builder, '@' + VIRTUAL_PATH_PREFIX)
 
     def on_setup_env(self, extra_flags=None, **extra):
         env = self.env
