@@ -1,10 +1,7 @@
-try:
-    from pathlib import Path
-except ImportError:             # pragma: no cover
-    from pathlib2 import Path
-
 import pkg_resources
 import pytest
+from contextlib import ExitStack
+from pathlib import Path
 
 from inifile import IniFile
 import lektor.builder
@@ -57,7 +54,11 @@ def lektor_builder(lektor_pad, tmp_path):
 
 @pytest.fixture
 def lektor_build_state(lektor_builder):
-    with lektor_builder.new_build_state() as build_state:
+    with ExitStack() as stack:
+        build_state = lektor_builder.new_build_state()
+        if hasattr(build_state, "__enter__"):
+            # Lektor < 3.4
+            build_state = stack.enter_context(build_state)
         yield build_state
 
 
