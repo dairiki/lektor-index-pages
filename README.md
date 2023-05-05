@@ -5,7 +5,7 @@
 [![GitHub license](https://img.shields.io/github/license/dairiki/lektor-index-pages)](https://github.com/dairiki/lektor-index-pages/blob/master/LICENSE)
 [![Documentation Status](https://readthedocs.org/projects/lektor-index-pages/badge/?version=latest)](https://lektor-index-pages.readthedocs.io/en/latest/?badge=latest)
 [![GitHub Actions (Tests)](https://github.com/dairiki/lektor-index-pages/workflows/Tests/badge.svg)](https://github.com/dairiki/lektor-index-pages)
-
+[![Trackgit Views](https://us-central1-trackgit-analytics.cloudfunctions.net/token/ping/lhauro0t5wzkw1d0k5lh)](https://trackgit.com)
 
 This [Lektor][] plugin can be used to generate “index pages” for a
 blog or similar collection of pages.  These index pages list the blog posts
