@@ -5,6 +5,7 @@
 - Drop support for Lektor 3.2.x
 - Test under python 3.11
 - Convert packaging from setuptools to [PDM]
+- Disuse `pkg_resources` in favor of `importlib.metadata`
 
 [PDM]: https://pdm.fming.dev/latest/
 

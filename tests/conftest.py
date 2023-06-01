@@ -1,5 +1,5 @@
-import pkg_resources
 import pytest
+import sys
 from contextlib import ExitStack
 from pathlib import Path
 
@@ -12,19 +12,25 @@ import lektor.environment
 import lektor.pagination
 import lektor.project
 
+if sys.version_info >= (3, 10):
+    from importlib.metadata import distribution
+else:
+    from importlib_metadata import distribution
+
 
 @pytest.fixture(scope="session")
 def my_plugin_id():
-    dist = pkg_resources.get_distribution('lektor_index_pages')
-    prefix = 'lektor-'
-    assert dist.project_name.lower().startswith(prefix)
-    return dist.project_name[len(prefix):]
+    dist = distribution("lektor_index_pages")
+    prefix = "lektor-"
+    assert dist.name.lower().startswith(prefix)
+    return dist.name[len(prefix):]
 
 
 @pytest.fixture(scope="session")
 def my_plugin_cls(my_plugin_id):
-    dist = pkg_resources.get_distribution('lektor_index_pages')
-    return dist.load_entry_point('lektor.plugins', my_plugin_id)
+    dist = distribution("lektor_index_pages")
+    eps = dist.entry_points.select(group="lektor.plugins")
+    return eps[my_plugin_id].load()
 
 
 @pytest.fixture(scope="session")
