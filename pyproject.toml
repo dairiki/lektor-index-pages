@@ -1,5 +1,66 @@
 [build-system]
-requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6"]
-build-backend = "setuptools.build_meta"
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
 
-[tool.setuptools_scm]
+[project]
+name = "lektor-index-pages"
+description = "Lektor plugin to generate blog-like index pages"
+keywords = ["Lektor plugin", "blog index"]
+dynamic = ["version", "readme"]
+license = {file = "LICENSE"}
+authors = [{name = "Jeff Dairiki", email = "dairiki@dairiki.org"}]
+urls.Homepage = "https://github.com/dairiki/lektor-index-pages"
+urls.Documentation = "https://lektor-index-pages.readthedocs.io/en/latest/"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Plugins",
+    "Environment :: Web Environment",
+    "Framework :: Lektor",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Text Processing :: Indexing",
+]
+requires-python = ">=3.7"
+dependencies = [
+    "more-itertools",
+    "lektorlib",
+    "jinja2~=3.0",
+]
+
+[project.entry-points."lektor.plugins"]
+index-pages = "lektor_index_pages:IndexPagesPlugin"
+
+[tool.pdm.version]
+source = "scm"
+
+[tool.pdm.build]
+excludes = [
+    "**/*~",
+    ".*",
+]
+source-includes = [
+    "CHANGES.md",
+    "README.md",
+    "tox.ini",
+]
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "flake8>=5.0.4",
+    "flake8-bugbear>=23.3.12",
+    "lektor",
+]
+test = [
+    "pytest>=7.3.1",
+    "pytest-mock>=3.10.0",
+    "pytest-cov",
+]
+
+[tool.pdm.scripts]
+tests = "pytest --cov=lektor_index_pages --cov-fail-under=100 tests"

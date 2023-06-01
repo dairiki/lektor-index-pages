@@ -1,8 +1,6 @@
 *~
-*.pyc
-*.pyo
-/dist/
-/build/
-lektor_index_pages.egg-info
+__pycache__/
 /.tox/
+/.coverage
 /htmlcov/
+/.pdm-python

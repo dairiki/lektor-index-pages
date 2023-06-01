@@ -4,6 +4,9 @@
 
 - Drop support for Lektor 3.2.x
 - Test under python 3.11
+- Convert packaging from setuptools to [PDM]
+
+[PDM]: https://pdm.fming.dev/latest/
 
 ### Release 1.0 (2022-01-28)
 
