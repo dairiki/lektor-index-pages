@@ -1,6 +1,6 @@
 include tox.ini LICENSE CHANGES.md
 include example.ini
 recursive-include tests *.py *.lr *.ini *.html *.css *.lektorproject
-include .readthedocs.yml
+include .readthedocs.yaml
 include docs/requirements.txt
 recursive-include docs *.rst *.py *.css *.md
