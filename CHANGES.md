@@ -6,8 +6,10 @@
 - Test under python 3.11
 - Convert packaging from setuptools to [PDM]
 - Disuse `pkg_resources` in favor of `importlib.metadata`
+- Add [pre-commit] configuration
 
 [PDM]: https://pdm.fming.dev/latest/
+[pre-commit]: https://pre-commit.com/
 
 ### Release 1.0 (2022-01-28)
 
