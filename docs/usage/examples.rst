@@ -4,7 +4,7 @@ Examples
 "Simple" Example: A Category Index
 ----------------------------------
 
-Let's assume your blog posts already include a string-valued **category** field in their `datamodel`_, and the blog posts live under the blog at Lektor path ``/blog``. 
+Let's assume your blog posts already include a string-valued **category** field in their `datamodel`_, and the blog posts live under the blog at Lektor path ``/blog``.
 A category index could be generated with the following configuration in ``configs/index-pages.ini``.
 
 .. _datamodel: https://www.getlektor.com/docs/models/

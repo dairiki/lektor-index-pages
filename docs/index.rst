@@ -7,15 +7,15 @@
 Lektor Index Pages
 ==================
 
-**Lektor-index-pages** is a `Lektor`_ plugin that can be used to generate "index pages" for a blog or similar collection of pages.  
+**Lektor-index-pages** is a `Lektor`_ plugin that can be used to generate "index pages" for a blog or similar collection of pages.
 These index pages list the blog posts segregated by some key, with each index page containing only those posts which match that key.
 
 Examples of what this can be used for include:
 
-- *Category Indexes*: A set of index pages, one for each category, which lists all the posts in that category.  
+- *Category Indexes*: A set of index pages, one for each category, which lists all the posts in that category.
   (Multi-valued index keys are also supported, so that each post can appear on more than a single index page: e.g. *keyword indexes* or *tag indexes*.)
 
-- *Date Indexes*: A set of index pages, one for each year (say), which list all the posts in that year.  
+- *Date Indexes*: A set of index pages, one for each year (say), which list all the posts in that year.
   (Sub-indexes are supported too — e.g., each year index may have as children a sequence of month indexes.)
 
 Behind the scenes, judicious caching of indexing results, and careful control of Lektor's dependency tracking prevent all this from slowing the build process down too excruciatingly much.

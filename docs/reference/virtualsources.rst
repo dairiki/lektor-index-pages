@@ -11,7 +11,7 @@ The index pages are generated as `virtual source objects <virtual_>`_
 The Index Roots
 ---------------
 
-Each top-level index will have a root virtual source.  
+Each top-level index will have a root virtual source.
 These have `Lektor paths <path_>`_ like :samp:`{parent}@index-pages/{index-name}`.
 The index root sources do not actually generate any artifacts — they serve primarily as the parents for the actual index pages.
 For the most part, they have one useful attribute, `subindexes` which contains a Lektor Query instance containing the individual index pages for the index.
