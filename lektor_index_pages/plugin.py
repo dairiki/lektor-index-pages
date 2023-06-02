@@ -131,8 +131,6 @@ class IndexPages:
     def __bool__(self):
         return bool(self.indexes)
 
-    __nonzero__ = __bool__  # py2
-
     @property
     def index_name(self):
         return self.index_root._id
