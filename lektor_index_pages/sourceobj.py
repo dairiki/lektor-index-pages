@@ -2,14 +2,9 @@
 
 """
 import hashlib
+import pickle
 from itertools import chain
 from operator import itemgetter
-import pickle
-
-from lektorlib.context import disable_dependency_recording
-from lektorlib.query import PrecomputedQuery
-from lektorlib.recordcache import get_or_create_virtual
-from more_itertools import unique_everseen
 
 import jinja2
 from lektor.db import _CmpHelper
@@ -17,6 +12,10 @@ from lektor.environment import PRIMARY_ALT
 from lektor.pluginsystem import get_plugin
 from lektor.sourceobj import VirtualSourceObject
 from lektor.utils import build_url
+from lektorlib.context import disable_dependency_recording
+from lektorlib.query import PrecomputedQuery
+from lektorlib.recordcache import get_or_create_virtual
+from more_itertools import unique_everseen
 from werkzeug.utils import cached_property
 
 
@@ -26,32 +25,31 @@ def get_system_data(model, id_):
     # NB: For any data descriptors in here,
     # IndexSource.__getitem__ will call its __get__
     return {
-        '_id': id_,
-        'key': id_,
-        '_slug': IndexSource._slug,
-        '_path': IndexSource.path,
-        '_gid': IndexSource._gid,
-        '_template': getattr(model, 'template', None),
-
-        '_hidden': IndexSource.is_hidden,
-        '_discoverable': IndexSource.is_discoverable,  # always true
-        '_alt': IndexSource.alt,
+        "_id": id_,
+        "key": id_,
+        "_slug": IndexSource._slug,
+        "_path": IndexSource.path,
+        "_gid": IndexSource._gid,
+        "_template": getattr(model, "template", None),
+        "_hidden": IndexSource.is_hidden,
+        "_discoverable": IndexSource.is_discoverable,  # always true
+        "_alt": IndexSource.alt,
         # There is no source for these — they are virtual
         # So reasonable values seem to be either PRIMARY_ALT or Undefined
-        '_source_alt': PRIMARY_ALT,
-
-        '_model': jinja_env.undefined(
-            "Missing value in field '_model': index is virtual"),
-
-        '_attachment_for': jinja_env.undefined(
-            "Missing value in field '_attachment_for': not an attachment"),
-        '_attachment_type': jinja_env.undefined(
-            "Missing value in field '_attachment_type': not an attachment"),
-        }
+        "_source_alt": PRIMARY_ALT,
+        "_model": jinja_env.undefined(
+            "Missing value in field '_model': index is virtual"
+        ),
+        "_attachment_for": jinja_env.undefined(
+            "Missing value in field '_attachment_for': not an attachment"
+        ),
+        "_attachment_type": jinja_env.undefined(
+            "Missing value in field '_attachment_type': not an attachment"
+        ),
+    }
 
 
 class IndexBase(VirtualSourceObject):
-
     def __init__(self, model, parent, id_, children, page_num=None):
         VirtualSourceObject.__init__(self, parent.record)
         self._model = model
@@ -76,22 +74,26 @@ class IndexBase(VirtualSourceObject):
 
     @cached_property
     def _subindex_ids(self):
-        subindex_model = getattr(self._model, 'subindex_model', None)
+        subindex_model = getattr(self._model, "subindex_model", None)
         if subindex_model is None:
             raise AttributeError("sub-indexes are not enabled")
 
         def get_subindex_ids():
             with disable_dependency_recording():
-                return tuple(unique_everseen(
-                    chain.from_iterable(
-                        map(subindex_model.keys_for_post, self.children))))
+                return tuple(
+                    unique_everseen(
+                        chain.from_iterable(
+                            map(subindex_model.keys_for_post, self.children)
+                        )
+                    )
+                )
 
-        cache_key = 'subindex_ids', self.path
+        cache_key = "subindex_ids", self.path
         return self._get_cache().get_or_create(cache_key, get_subindex_ids)
 
     def _get_cache(self):
         try:
-            plugin = get_plugin('index-pages', self.pad.env)
+            plugin = get_plugin("index-pages", self.pad.env)
         except LookupError:
             return DummyCache()  # testing
         else:
@@ -105,7 +107,7 @@ class IndexBase(VirtualSourceObject):
         if not pieces:
             return self
 
-        subindex_model = getattr(self._model, 'subindex_model', None)
+        subindex_model = getattr(self._model, "subindex_model", None)
         if subindex_model is not None:
             if pieces[0] in self._subindex_ids:
                 subindex = self._get_subindex(pieces[0])
@@ -121,12 +123,12 @@ class IndexBase(VirtualSourceObject):
             page_num = 1 if pagination_config.enabled else None
             return self.__for_page__(page_num)
 
-        subindex_model = getattr(self._model, 'subindex_model', None)
+        subindex_model = getattr(self._model, "subindex_model", None)
         if subindex_model is not None:
             for subindex in self.subindexes:
-                slug = subindex._slug.split('/')
-                if url_path[:len(slug)] == slug:
-                    return subindex.resolve_url_path(url_path[len(slug):])
+                slug = subindex._slug.split("/")
+                if url_path[: len(slug)] == slug:
+                    return subindex.resolve_url_path(url_path[len(slug) :])
 
         if pagination_config.enabled:
             return pagination_config.match_pagination(self, url_path)
@@ -149,18 +151,18 @@ class IndexBase(VirtualSourceObject):
             # ignoring any dependencies), and return a custom Query class
             # which will iterate over only those matching children.
             with disable_dependency_recording():
-                return list(map(itemgetter('_id'), children))
+                return list(map(itemgetter("_id"), children))
 
-        cache_key = 'child_ids', self.path, id_
+        cache_key = "child_ids", self.path, id_
         child_ids = self._get_cache().get_or_create(cache_key, get_child_ids)
         children = PrecomputedQuery(
-            self.children.path, self.pad, child_ids, alt=self.children.alt)
-        return IndexSource.get_index(
-            subindex_model, self, id_, children, page_num)
+            self.children.path, self.pad, child_ids, alt=self.children.alt
+        )
+        return IndexSource.get_index(subindex_model, self, id_, children, page_num)
 
     @cached_property
     def _gid(self):
-        return hashlib.md5(self.path.encode('utf-8')).hexdigest()
+        return hashlib.md5(self.path.encode("utf-8")).hexdigest()
 
     def get_checksum(self, path_cache):
         return self._compute_checksum(self._get_checksum_data(path_cache))
@@ -184,7 +186,7 @@ class IndexBase(VirtualSourceObject):
                 # We change if the number of pages changes
                 child_paths = f"NPAGES={self.pagination.pages}"
 
-        subindex_ids = getattr(self, '_subindex_ids', None)
+        subindex_ids = getattr(self, "_subindex_ids", None)
         if subindex_ids is not None:
             # If we have subindexes the composition of the index
             # also depends on the sequence of subindexes
@@ -207,8 +209,7 @@ class IndexBase(VirtualSourceObject):
     def __eq__(self, other):
         if self is other:
             return True
-        return (self.__class__ == other.__class__
-                and self.path == other.path)
+        return self.__class__ == other.__class__ and self.path == other.path
 
     def __ne__(self, other):
         return not self.__eq__(other)
@@ -218,32 +219,28 @@ class IndexBase(VirtualSourceObject):
 
     def __repr__(self):
         # path without page_num
-        bits = ["path={path!r}"]
+        bits = [f"path={self.__for_page__(None).path!r}"]
         if self.alt is not PRIMARY_ALT:
-            bits.append("alt={alt!r}")
+            bits.append(f"alt={self.alt!r}")
         if self.page_num is not None:
-            bits.append("page_num={page_num}")
-        desc = ' '.join(bits).format(
-            path=self.__for_page__(None).path,  # path without page_num
-            alt=self.alt,
-            page_num=self.page_num)
-        return f"<{self.__class__.__name__} {desc}>"
+            bits.append(f"page_num={self.page_num}")
+        return f"<{self.__class__.__name__} {' '.join(bits)}>"
 
 
 class IndexRoot(IndexBase):
-    """Root source node for an index tree.
+    """Root source node for an index tree."""
 
-    """
     def __init__(self, model, record):
-        IndexBase.__init__(self, model, record,
-                           id_=model.index_name,
-                           children=model.get_items(record))
+        IndexBase.__init__(
+            self, model, record, id_=model.index_name, children=model.get_items(record)
+        )
 
     @classmethod
     def get_index(class_, model, record):
         def creator():
             assert record.record == record
             return class_(model, record)
+
         virtual_path = model.get_virtual_path(record)
         return get_or_create_virtual(record, virtual_path, creator)
 
@@ -256,8 +253,7 @@ class IndexRoot(IndexBase):
         return self.record.url_path
 
     def __for_page__(self, page_num):
-        """Get source object for a (possibly) different page number.
-        """
+        """Get source object for a (possibly) different page number."""
         assert page_num is None
         return self
 
@@ -268,10 +264,9 @@ class IndexRoot(IndexBase):
 
 
 class IndexSource(IndexBase):
-    """Index source node.
+    """Index source node."""
 
-    """
-    parent = None               # override property in parent
+    parent = None  # override property in parent
 
     def __init__(self, model, parent, id_, children, page_num=None):
         IndexBase.__init__(self, model, parent, id_, children, page_num)
@@ -283,6 +278,7 @@ class IndexSource(IndexBase):
     def get_index(class_, model, parent, id_, children, page_num=None):
         def creator():
             return class_(model, parent, id_, children, page_num)
+
         virtual_path = model.get_virtual_path(parent, id_, page_num)
         return get_or_create_virtual(parent.record, virtual_path, creator)
 
@@ -291,7 +287,7 @@ class IndexSource(IndexBase):
 
     def __getitem__(self, name):
         rv = self._data[name]
-        if hasattr(rv, '__get__'):
+        if hasattr(rv, "__get__"):
             rv = rv.__get__(self)
             self._data[name] = rv
         return rv
@@ -335,16 +331,16 @@ class IndexSource(IndexBase):
             assert datamodel.pagination_config.enabled
             path.append(datamodel.pagination_config.url_suffix)
             path.append(self.page_num)
-        _, _, slug_tail = slug.rstrip('/').rpartition('/')
-        return build_url(path, trailing_slash=('.' not in slug_tail))
+        _, _, slug_tail = slug.rstrip("/").rpartition("/")
+        return build_url(path, trailing_slash=("." not in slug_tail))
 
     def __for_page__(self, page_num):
-        """Get source object for a (possibly) different page number.
-        """
+        """Get source object for a (possibly) different page number."""
         if page_num == self.page_num:
             return self
         return self.get_index(
-            self._model, self.parent, self._id, self.children, page_num)
+            self._model, self.parent, self._id, self.children, page_num
+        )
 
     @property
     def is_hidden(self):
@@ -352,8 +348,8 @@ class IndexSource(IndexBase):
 
     def get_sort_key(self, fields):
         def cmp_val(field):
-            reverse = field.startswith('-')
-            if reverse or field.startswith('+'):
+            reverse = field.startswith("-")
+            if reverse or field.startswith("+"):
                 field = field[1:]
             value = self[field] if field in self else None
             return _CmpHelper(value, reverse)

@@ -1,9 +1,7 @@
-import pytest
 import sys
 from contextlib import ExitStack
 from pathlib import Path
 
-from inifile import IniFile
 import lektor.builder
 import lektor.context
 import lektor.datamodel
@@ -11,6 +9,8 @@ import lektor.db
 import lektor.environment
 import lektor.pagination
 import lektor.project
+import pytest
+from inifile import IniFile
 
 if sys.version_info >= (3, 10):
     from importlib.metadata import distribution
@@ -23,7 +23,7 @@ def my_plugin_id():
     dist = distribution("lektor_index_pages")
     prefix = "lektor-"
     assert dist.name.lower().startswith(prefix)
-    return dist.name[len(prefix):]
+    return dist.name[len(prefix) :]
 
 
 @pytest.fixture(scope="session")
@@ -35,7 +35,7 @@ def my_plugin_cls(my_plugin_id):
 
 @pytest.fixture(scope="session")
 def site_path():
-    return Path(__file__).parent / 'demo-site'
+    return Path(__file__).parent / "demo-site"
 
 
 @pytest.fixture
@@ -81,7 +81,7 @@ def lektor_alt():
 
 @pytest.fixture
 def blog_record(lektor_pad, lektor_alt):
-    return lektor_pad.get('/blog', alt=lektor_alt)
+    return lektor_pad.get("/blog", alt=lektor_alt)
 
 
 @pytest.fixture
@@ -95,29 +95,28 @@ def pagination_enabled():
     return False
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope="session")
 def junk_ini(tmp_path_factory):
-    return tmp_path_factory.mktemp('junk') / 'junk.ini'
+    return tmp_path_factory.mktemp("junk") / "junk.ini"
 
 
 @pytest.fixture
-def inifile(site_path, junk_ini, my_plugin_id,
-            pagination_enabled, month_index_enabled):
+def inifile(site_path, junk_ini, my_plugin_id, pagination_enabled, month_index_enabled):
     # Make a temporary copy of our .ini file
-    config_name = '%s.ini' % my_plugin_id
-    orig_ini = site_path / 'configs' / config_name
+    config_name = "%s.ini" % my_plugin_id
+    orig_ini = site_path / "configs" / config_name
     inifile = IniFile(str(orig_ini))
     inifile.filename = str(junk_ini)
 
     def yesno(val):
-        return 'yes' if val else 'no'
+        return "yes" if val else "no"
 
-    inifile['pagination.enabled'] = yesno(pagination_enabled)
+    inifile["pagination.enabled"] = yesno(pagination_enabled)
     if not month_index_enabled:
-        del inifile['year-index.subindex']
+        del inifile["year-index.subindex"]
 
     if not isinstance(pagination_enabled, bool):
-        inifile['pagination.per_page'] = pagination_enabled
+        inifile["pagination.per_page"] = pagination_enabled
     return inifile
 
 
@@ -131,7 +130,7 @@ def plugin(lektor_env, my_plugin_id, my_plugin_cls, inifile):
     plugin = lektor_env.plugins[my_plugin_id]
     plugin._inifile = inifile
 
-    plugin_controller.emit('setup-env')
+    plugin_controller.emit("setup-env")
     return plugin
 
 

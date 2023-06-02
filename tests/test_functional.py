@@ -1,14 +1,14 @@
+import pytest
 from lektor.builder import Builder
 from lektor.db import Database
 from lektor.environment import Environment
 from lektor.project import Project
 from lektor.reporter import CliReporter
-import pytest
 
 
 @pytest.fixture(scope="module")
 def demo_output(site_path, my_plugin_id, my_plugin_cls, tmp_path_factory):
-    """ Build the demo site.
+    """Build the demo site.
 
     Return path to output directory.
 
@@ -18,10 +18,10 @@ def demo_output(site_path, my_plugin_id, my_plugin_cls, tmp_path_factory):
 
     # Load our plugin
     env.plugin_controller.instanciate_plugin(my_plugin_id, my_plugin_cls)
-    env.plugin_controller.emit('setup-env')
+    env.plugin_controller.emit("setup-env")
 
     pad = Database(env).new_pad()
-    output_path = tmp_path_factory.mktemp('demo-site')
+    output_path = tmp_path_factory.mktemp("demo-site")
     builder = Builder(pad, str(output_path))
     with CliReporter(env):
         failures = builder.build_all()
@@ -30,17 +30,20 @@ def demo_output(site_path, my_plugin_id, my_plugin_cls, tmp_path_factory):
 
 
 def test_year_index(demo_output):
-    year_index_html = demo_output / 'blog/2020/index.html'
+    year_index_html = demo_output / "blog/2020/index.html"
     assert "Blog - 2020" in year_index_html.read_text()
 
 
-@pytest.mark.parametrize("id, expect_text", [
-    ('1999/03', None),
-    ('2020/03', "March 2020"),
-    ('2020/04', "April 2020"),
-    ])
+@pytest.mark.parametrize(
+    "id, expect_text",
+    [
+        ("1999/03", None),
+        ("2020/03", "March 2020"),
+        ("2020/04", "April 2020"),
+    ],
+)
 def test_month_index(demo_output, id, expect_text):
-    month_index_html = demo_output / 'blog' / id / 'index.html'
+    month_index_html = demo_output / "blog" / id / "index.html"
     if expect_text:
         assert expect_text in month_index_html.read_text()
     else:

@@ -6,15 +6,12 @@ FIXME: figure out how to get stale index files to prune correctly
 from threading import Lock
 
 import jinja2
-
 from lektor.environment import PRIMARY_ALT
 from lektor.pluginsystem import Plugin
 
 from .buildprog import IndexBuildProgram
-from .config import (
-    Config,
-    NoSuchIndex,
-    )
+from .config import Config
+from .config import NoSuchIndex
 from .indexmodel import VIRTUAL_PATH_PREFIX
 from .sourceobj import IndexBase
 
@@ -38,6 +35,7 @@ class Cache:
     from being too slow responding to http requests.
 
     """
+
     def __init__(self):
         self.lock = Lock()
         self.data = {}
@@ -57,10 +55,10 @@ class Cache:
 
 
 class IndexPagesPlugin(Plugin):
-    name = 'Index Pages'
-    description = 'Lektor plugin to index pages.'
+    name = "Index Pages"
+    description = "Lektor plugin to index pages."
 
-    _inifile = None         # for testing
+    _inifile = None  # for testing
 
     def __init__(self, env, id):
         super().__init__(env, id)
@@ -70,7 +68,8 @@ class IndexPagesPlugin(Plugin):
         def parse_config():
             inifile = self._inifile or self.get_config()
             return Config.from_ini(self.env, inifile)
-        return self.cache.get_or_create('config', parse_config)
+
+        return self.cache.get_or_create("config", parse_config)
 
     def on_before_build_all(self, builder, **extra):
         self.cache.clear()
@@ -80,12 +79,13 @@ class IndexPagesPlugin(Plugin):
 
         skip_build = False
         if extra_flags:
-            flags = extra_flags.get('index-pages', '').split(',')
-            skip_build = 'skip-build' in flags
+            flags = extra_flags.get("index-pages", "").split(",")
+            skip_build = "skip-build" in flags
 
         env.add_build_program(IndexBase, IndexBuildProgram)
 
         if not skip_build:
+
             @env.generator
             def generate_index(record):
                 config = self.read_config()
@@ -103,7 +103,7 @@ class IndexPagesPlugin(Plugin):
 
         @jinja2.pass_context
         def index_pages(jinja_ctx, index_name, alt=PRIMARY_ALT):
-            pad = jinja_ctx.resolve('site')
+            pad = jinja_ctx.resolve("site")
             if jinja2.is_undefined(pad):
                 return pad
 
@@ -111,10 +111,10 @@ class IndexPagesPlugin(Plugin):
             try:
                 index_root = config.get_index_root(index_name, pad, alt)
             except NoSuchIndex as exc:
-                return jinja_ctx.environment.undefined('index_pages: %s' % exc)
+                return jinja_ctx.environment.undefined("index_pages: %s" % exc)
             return IndexPages(index_root)
 
-        env.jinja_env.globals['index_pages'] = index_pages
+        env.jinja_env.globals["index_pages"] = index_pages
 
 
 class IndexPages:
@@ -131,7 +131,7 @@ class IndexPages:
     def __bool__(self):
         return bool(self.indexes)
 
-    __nonzero__ = __bool__      # py2
+    __nonzero__ = __bool__  # py2
 
     @property
     def index_name(self):

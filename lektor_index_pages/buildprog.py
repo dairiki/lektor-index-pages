@@ -1,6 +1,5 @@
 """ Build program for the index pages.
 """
-
 from lektor.build_programs import BuildProgram
 from lektor.context import get_ctx
 
@@ -14,8 +13,8 @@ class IndexBuildProgram(BuildProgram):
             pagination_enabled = source.datamodel.pagination_config.enabled
             if not pagination_enabled or source.page_num is not None:
                 artifact_name = source.url_path
-                if artifact_name.endswith('/'):
-                    artifact_name += 'index.html'
+                if artifact_name.endswith("/"):
+                    artifact_name += "index.html"
                 # We don't really depend on record — the index doesn't
                 # change if the parent page contents do.  However, if
                 # no sources are listed here, the index will be pruned
@@ -25,7 +24,7 @@ class IndexBuildProgram(BuildProgram):
 
     def build_artifact(self, artifact):
         config_filename = self.source.datamodel.filename
-        template = self.source._data['_template']
+        template = self.source._data["_template"]
 
         if config_filename is not None:
             ctx = get_ctx()
@@ -43,6 +42,6 @@ class IndexBuildProgram(BuildProgram):
             for page_num in range(1, num_pages + 1):
                 yield source.__for_page__(page_num)
 
-        subindexes = getattr(source, 'subindexes', None)
+        subindexes = getattr(source, "subindexes", None)
         if subindexes is not None:
             yield from subindexes

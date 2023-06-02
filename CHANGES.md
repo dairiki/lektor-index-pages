@@ -7,9 +7,12 @@
 - Convert packaging from setuptools to [PDM]
 - Disuse `pkg_resources` in favor of `importlib.metadata`
 - Add [pre-commit] configuration
+- Run [black] and [reorder-python-imports] on code
 
 [PDM]: https://pdm.fming.dev/latest/
 [pre-commit]: https://pre-commit.com/
+[black]: https://black.readthedocs.io/en/stable/index.html
+[reorder-python-imports]: https://github.com/asottile/reorder-python-imports
 
 ### Release 1.0 (2022-01-28)
 

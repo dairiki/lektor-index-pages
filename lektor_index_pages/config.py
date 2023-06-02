@@ -3,14 +3,11 @@
 """
 from itertools import chain
 
+from lektor.environment import PRIMARY_ALT
 from lektorlib.recordcache import get_or_create_virtual
 
-from lektor.environment import PRIMARY_ALT
-
-from .indexmodel import (
-    VIRTUAL_PATH_PREFIX,
-    index_models_from_ini,
-    )
+from .indexmodel import index_models_from_ini
+from .indexmodel import VIRTUAL_PATH_PREFIX
 from .sourceobj import IndexRoot
 
 
@@ -25,12 +22,13 @@ class Config:
     def get_index_root(self, index_name, pad, alt=PRIMARY_ALT):
         index_model = self.index_models.get(index_name)
         if index_model is None:
-            raise NoSuchIndex("no index named {!r} is configured"
-                              .format(index_name))
+            raise NoSuchIndex(f"no index named {index_name!r} is configured")
         record = pad.get(index_model.parent_path, alt=alt)
         if record is None:
-            raise NoSuchIndex("no parent record exists at {!r} for index {!r}"
-                              .format(index_model.parent_path, index_name))
+            raise NoSuchIndex(
+                "no parent record exists at "
+                f"{index_model.parent_path!r} for index {index_name!r}"
+            )
         return IndexRoot.get_index(index_model, record)
 
     def iter_index_roots(self, record):
@@ -48,7 +46,8 @@ class Config:
         # virtual source objects, so we will use it...
         def creator():
             return self._resolve_virtual_path(record, pieces)
-        virtual_path = '/'.join(chain([VIRTUAL_PATH_PREFIX], pieces))
+
+        virtual_path = "/".join(chain([VIRTUAL_PATH_PREFIX], pieces))
         return get_or_create_virtual(record, virtual_path, creator)
 
     def _resolve_virtual_path(self, record, pieces):
