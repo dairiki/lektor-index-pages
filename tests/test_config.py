@@ -56,3 +56,7 @@ class TestConfig:
     def test_resolve_url_path(self, config, blog_record):
         year_idx = config.resolve_url_path(blog_record, ["2020"])
         assert year_idx["year"] == 2020
+
+    @pytest.mark.usefixtures("plugin")
+    def test_resolve_url_path_failure(self, config, blog_record):
+        assert config.resolve_url_path(blog_record, ["missing"]) is None

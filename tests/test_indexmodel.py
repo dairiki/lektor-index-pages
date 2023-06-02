@@ -158,6 +158,7 @@ class TestIndexModel:
             pagination_config=pagination_config,
             subindex_model=mocker.sentinel.subindex_model,
             config_filename="dummy.ini",
+            index_name="test",
         )
 
     @pytest.mark.parametrize(

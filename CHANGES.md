@@ -4,6 +4,7 @@
 
 - Drop support for Lektor 3.2.x
 - Test under python 3.11
+- Add type annotations
 - Convert packaging from setuptools to [PDM]
 - Disuse `pkg_resources` in favor of `importlib.metadata`
 - Add [pre-commit] configuration

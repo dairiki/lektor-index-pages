@@ -136,6 +136,9 @@ class TestIndexSource:
     def test__subindex_ids(self, index_root):
         assert index_root._subindex_ids == ("2020",)
 
+    def test__subindex_ids_missing_if_no_subindex(self, year_index):
+        assert not hasattr(year_index, "_subindex_ids")
+
     def test_path(self, index_root):
         assert index_root.path == "/blog@%s/year-index" % VIRTUAL_PATH_PREFIX
 
@@ -237,6 +240,10 @@ class TestIndexSource:
         paginated = year_index.__for_page__(page_num)
         assert paginated.page_num == page_num
 
+    def test__get_subindex_raises_if_no_subindex(self, year_index):
+        with pytest.raises(LookupError):
+            year_index._get_subindex("1")
+
     @pytest.mark.parametrize("month_index_enabled", [True])
     def test_get_checksum(self, index):
         assert index.get_checksum("ignored") == index._compute_checksum(
@@ -246,7 +253,7 @@ class TestIndexSource:
     def test_get_checksum_data(self, index_root):
         assert index_root._get_checksum_data("ignored") == (
             "/blog@index-pages/year-index",
-            ["/blog/second-post", "/blog/first-post"],
+            ("/blog/second-post", "/blog/first-post"),
             ("2020",),
         )
 
@@ -260,14 +267,14 @@ class TestIndexSource:
         )
         assert year_index.__for_page__(1)._get_checksum_data("ignored") == (
             "/blog@index-pages/year-index/2020/page/1",
-            ["/blog/second-post", "/blog/first-post"],
+            ("/blog/second-post", "/blog/first-post"),
             ("04", "03"),
         )
 
     def test_get_checksum_data_no_subindexes(self, year_index):
         assert year_index._get_checksum_data("ignored") == (
             "/blog@index-pages/year-index/2020",
-            ["/blog/second-post", "/blog/first-post"],
+            ("/blog/second-post", "/blog/first-post"),
         )
 
     @pytest.mark.parametrize(
@@ -322,6 +329,9 @@ class TestIndexSource:
         assert year_index != other
         assert not (year_index == other)
         assert hash(year_index) != hash(other)
+
+    def test_ne_non_index(self, index, blog_record):
+        assert index != blog_record
 
     def test_repr(self, year_index):
         assert (

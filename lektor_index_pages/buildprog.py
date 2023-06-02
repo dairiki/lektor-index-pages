@@ -1,11 +1,20 @@
 """ Build program for the index pages.
 """
+from __future__ import annotations
+
+from typing import Generator
+from typing import TYPE_CHECKING
+
 from lektor.build_programs import BuildProgram
 from lektor.context import get_ctx
 
+if TYPE_CHECKING:
+    from lektor.builder import Artifact
+    from lektor.sourceobj import SourceObject
 
-class IndexBuildProgram(BuildProgram):
-    def produce_artifacts(self):
+
+class IndexBuildProgram(BuildProgram):  # type: ignore[misc]
+    def produce_artifacts(self) -> None:
         source = self.source
         record = source.record
 
@@ -22,7 +31,7 @@ class IndexBuildProgram(BuildProgram):
                 sources = [record.source_filename]
                 self.declare_artifact(artifact_name, sources=sources)
 
-    def build_artifact(self, artifact):
+    def build_artifact(self, artifact: Artifact) -> None:
         config_filename = self.source.datamodel.filename
         template = self.source._data["_template"]
 
@@ -33,7 +42,7 @@ class IndexBuildProgram(BuildProgram):
 
         artifact.render_template_into(template, this=self.source)
 
-    def iter_child_sources(self):
+    def iter_child_sources(self) -> Generator[SourceObject, None, None]:
         source = self.source
         pagination_config = source.datamodel.pagination_config
 
