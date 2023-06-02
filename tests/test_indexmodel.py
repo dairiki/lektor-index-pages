@@ -68,8 +68,8 @@ class TestPaginationConfig:
 
     def test_get_record_for_page(self, pagination_config, source, page_num):
         paginated = pagination_config.get_record_for_page(source, page_num)
-        paginated.page_num == page_num
-        paginated.record is source.record
+        assert paginated.page_num == page_num
+        assert paginated.record is source.record
 
 
 class TestIndexRootModel:
