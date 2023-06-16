@@ -69,6 +69,16 @@ test = [
 [tool.pdm.scripts]
 tests = "pytest --cov=lektor_index_pages --cov-fail-under=100 tests"
 
+[tool.coverage.paths]
+paths = [
+    "lektor_index_pages",
+    ".tox/*/site-packages/lektor_index_pages",
+]
+
+[tool.coverage.run]
+parallel = true
+source_pkgs = ["lektor_index_pages"]
+
 [tool.coverage.report]
 exclude_lines = [
     "pragma: no cover",
