@@ -1,6 +1,6 @@
 ## Changelog
 
-### Release 1.1 (unreleased)
+### Release 1.1.0 (2023-06-16)
 
 - Drop support for Lektor 3.2.x
 - Test under python 3.11
