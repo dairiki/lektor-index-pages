@@ -1,5 +1,16 @@
 ## Changelog
 
+### Next Release
+
+This release drops support for python 3.7, and starts testing under python 3.12.
+
+#### Bugs Fixed
+
+- Fix typo/braino in
+  `test_buildprog.py::TestIndexBuildProgram::test_produce_artifacts`. ([5c01e17])
+
+[5c01e17]: https://github.com/dairiki/lektor-index-pages/commit/5c01e17dc653599e259f079d66189c557e917bd6
+
 ### Release 1.1.0 (2023-06-16)
 
 - Drop support for Lektor 3.2.x
