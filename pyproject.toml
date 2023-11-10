@@ -19,20 +19,19 @@ classifiers = [
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
     "Topic :: Text Processing :: Indexing",
 ]
-requires-python = ">=3.7"
+requires-python = ">=3.8"
 dependencies = [
     "importlib_metadata; python_version<'3.10'",
     "more-itertools",
     "lektorlib>=1.2.1",
     "jinja2~=3.0",
-    "typing_extensions; python_version<'3.8'",
 ]
 
 [project.entry-points."lektor.plugins"]
