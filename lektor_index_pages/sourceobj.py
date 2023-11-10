@@ -5,13 +5,13 @@ from __future__ import annotations
 
 import hashlib
 import pickle
-import sys
 from collections.abc import Hashable
 from itertools import chain
 from operator import itemgetter
 from typing import Any
 from typing import Callable
 from typing import Iterable
+from typing import Literal
 from typing import Sequence
 from typing import TYPE_CHECKING
 from typing import TypeVar
@@ -27,11 +27,6 @@ from lektorlib.query import PrecomputedQuery
 from lektorlib.recordcache import get_or_create_virtual
 from more_itertools import unique_everseen
 from werkzeug.utils import cached_property
-
-if sys.version_info >= (3, 8):
-    from typing import Literal
-else:
-    from typing_extensions import Literal
 
 if TYPE_CHECKING:
     from lektor.builder import PathCache
