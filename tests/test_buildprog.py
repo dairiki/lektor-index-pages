@@ -53,7 +53,7 @@ class TestIndexBuildProgram:
             "lektor.build_programs.BuildProgram.declare_artifact"
         )
         prog.produce_artifacts()
-        assert declare_artifact.called_once_with(
+        declare_artifact.assert_called_once_with(
             "/blog/2020/index.html", sources=[source_filename]
         )
 
