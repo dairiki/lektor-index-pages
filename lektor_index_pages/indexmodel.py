@@ -1,6 +1,7 @@
 """ Configurable logic that controls how indexes work
 
 """
+
 from __future__ import annotations
 
 from typing import Generator
@@ -250,7 +251,7 @@ def _idify(value: object) -> str:
 
 def index_models_from_ini(
     env: Environment, inifile: IniFile
-) -> Generator[IndexRootModel, None, None]:
+) -> Generator[IndexRootModel]:
     def is_index(section_name: str) -> bool:
         if "." in section_name:
             return False

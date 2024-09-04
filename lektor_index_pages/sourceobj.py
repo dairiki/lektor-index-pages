@@ -1,6 +1,7 @@
 """ Virtual source objects for the indexes.
 
 """
+
 from __future__ import annotations
 
 import hashlib

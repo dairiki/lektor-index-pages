@@ -1,5 +1,6 @@
 """ Build program for the index pages.
 """
+
 from __future__ import annotations
 
 from typing import Generator
@@ -42,7 +43,7 @@ class IndexBuildProgram(BuildProgram):  # type: ignore[misc]
 
         artifact.render_template_into(template, this=self.source)
 
-    def iter_child_sources(self) -> Generator[SourceObject, None, None]:
+    def iter_child_sources(self) -> Generator[SourceObject]:
         source = self.source
         pagination_config = source.datamodel.pagination_config
 

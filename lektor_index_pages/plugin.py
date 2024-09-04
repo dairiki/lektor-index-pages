@@ -3,6 +3,7 @@
 FIXME: figure out how to get stale index files to prune correctly
 
 """
+
 from __future__ import annotations
 
 from collections.abc import Hashable
@@ -113,7 +114,7 @@ class IndexPagesPlugin(Plugin):  # type: ignore[misc]
         if not skip_build:
 
             @env.generator  # type: ignore[misc]
-            def generate_index(record: Record) -> Generator[IndexRoot, None, None]:
+            def generate_index(record: Record) -> Generator[IndexRoot]:
                 config = self.read_config()
                 return config.iter_index_roots(record)
 

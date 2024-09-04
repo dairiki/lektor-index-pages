@@ -1,6 +1,7 @@
 """ Configuration and config-related logic.
 
 """
+
 from __future__ import annotations
 
 from itertools import chain
@@ -47,7 +48,7 @@ class Config:
             )
         return IndexRoot.get_index(index_model, record)
 
-    def iter_index_roots(self, record: Record) -> Generator[IndexRoot, None, None]:
+    def iter_index_roots(self, record: Record) -> Generator[IndexRoot]:
         record_path = record.path
         for index_model in self.index_models.values():
             if index_model.parent_path == record_path:
