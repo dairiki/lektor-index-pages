@@ -1,6 +1,4 @@
-""" Configuration and config-related logic.
-
-"""
+"""Configuration and config-related logic."""
 
 from __future__ import annotations
 

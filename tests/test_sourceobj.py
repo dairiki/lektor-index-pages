@@ -125,7 +125,7 @@ class TestIndexSource:
             assert year_index.pagination.total == blog_record.children.count()
         else:
             with pytest.raises(RuntimeError):
-                year_index.pagination
+                _ = year_index.pagination
 
     def test_subindexes(self, index, index_root):
         if index is index_root:
@@ -140,7 +140,7 @@ class TestIndexSource:
         assert not hasattr(year_index, "_subindex_ids")
 
     def test_path(self, index_root):
-        assert index_root.path == "/blog@%s/year-index" % VIRTUAL_PATH_PREFIX
+        assert index_root.path == f"/blog@{VIRTUAL_PATH_PREFIX}/year-index"
 
     def test__gid(self, index_root):
         # md5("/blog@index-pages/year-index")

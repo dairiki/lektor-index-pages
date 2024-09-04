@@ -1,5 +1,4 @@
-"""PDM build hook to generate dynamic README.
-"""
+"""PDM build hook to generate dynamic README."""
 
 from __future__ import annotations
 

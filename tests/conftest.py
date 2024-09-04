@@ -103,7 +103,7 @@ def junk_ini(tmp_path_factory):
 @pytest.fixture
 def inifile(site_path, junk_ini, my_plugin_id, pagination_enabled, month_index_enabled):
     # Make a temporary copy of our .ini file
-    config_name = "%s.ini" % my_plugin_id
+    config_name = f"{my_plugin_id}.ini"
     orig_ini = site_path / "configs" / config_name
     inifile = IniFile(str(orig_ini))
     inifile.filename = str(junk_ini)

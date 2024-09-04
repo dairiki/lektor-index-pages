@@ -1,4 +1,3 @@
-""" Index pages for Lektor
-"""
+"""Index pages for Lektor"""
 
 from .plugin import IndexPagesPlugin  # noqa: F401

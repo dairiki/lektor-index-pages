@@ -1,5 +1,4 @@
-""" Build program for the index pages.
-"""
+"""Build program for the index pages."""
 
 from __future__ import annotations
 

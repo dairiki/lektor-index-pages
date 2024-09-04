@@ -1,6 +1,4 @@
-""" Configurable logic that controls how indexes work
-
-"""
+"""Configurable logic that controls how indexes work"""
 
 from __future__ import annotations
 
@@ -19,10 +17,11 @@ from more_itertools import always_iterable
 if TYPE_CHECKING:
     from _typeshed import StrPath
     from inifile import IniFile
-    from lektor.environment import Environment
     from lektor.db import Query
     from lektor.db import Record
+    from lektor.environment import Environment
     from lektor.sourceobj import SourceObject
+
     from .sourceobj import IndexBase
     from .sourceobj import IndexRoot
     from .sourceobj import IndexSource
@@ -154,7 +153,7 @@ class IndexModel(IndexModelBase):
         self.key_expr = expr("key", key)
         self.slug_expr = expr("slug_format", slug_format) if slug_format else None
 
-        fields_section = "%s.fields" % index_name
+        fields_section = f"{index_name}.fields"
         field = ExpressionCompiler(
             env, section=fields_section, filename=config_filename
         )
@@ -231,7 +230,7 @@ class ExpressionCompiler:
                 f"Jinja expression syntax error in config file: {exc}\n"
                 f"    in expression {expr!r}\n"
                 f"    for name {name!r}{self.location}"
-            )
+            ) from exc
 
 
 class FieldDescriptor:

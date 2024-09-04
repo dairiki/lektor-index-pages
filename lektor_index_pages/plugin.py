@@ -142,7 +142,7 @@ class IndexPagesPlugin(Plugin):  # type: ignore[misc]
             try:
                 index_root = config.get_index_root(index_name, pad, alt)
             except NoSuchIndex as exc:
-                return jinja_ctx.environment.undefined("index_pages: %s" % exc)
+                return jinja_ctx.environment.undefined(f"index_pages: {exc}")
             return IndexPages(index_root)
 
         env.jinja_env.globals["index_pages"] = index_pages

@@ -1,6 +1,4 @@
-""" Virtual source objects for the indexes.
-
-"""
+"""Virtual source objects for the indexes."""
 
 from __future__ import annotations
 
@@ -33,6 +31,7 @@ if TYPE_CHECKING:
     from lektor.builder import PathCache
     from lektor.db import Record
     from lektor.pagination import Pagination
+
     from .indexmodel import IndexModel
     from .indexmodel import IndexRootModel
     from .plugin import Cache

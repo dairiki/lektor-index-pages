@@ -260,10 +260,10 @@ class TestExpressionCompiler:
     @pytest.mark.parametrize("section", ["section", None])
     def test_location(self, compiler, filename, section):
         if filename:
-            expect = r"in .*\b%s\b" % re.escape(filename)
+            expect = rf"in .*\b{re.escape(filename)}\b"
             assert re.search(expect, compiler.location)
         if section:
-            expect = r"\[%s\]" % re.escape(section)
+            expect = rf"\[{re.escape(section)}\]"
             assert re.search(expect, compiler.location)
 
     def test_error_report(self, compiler):
