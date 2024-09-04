@@ -11,6 +11,10 @@ This release drops support for python 3.7, and starts testing under python 3.12.
 
 [5c01e17]: https://github.com/dairiki/lektor-index-pages/commit/5c01e17dc653599e259f079d66189c557e917bd6
 
+#### Style
+
+- We now use ruff for style linting
+
 ### Release 1.1.0 (2023-06-16)
 
 - Drop support for Lektor 3.2.x
